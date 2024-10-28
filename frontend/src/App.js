@@ -10,12 +10,16 @@ import AddEntryPage from './components/AddEntryPage';
 const App = () => {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/dashboard" element={<UserPage />} />
-        <Route path="/add-entry" element={<AddEntryPage />} />
-      </Routes>
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="max-w-xs w-full p-6 border border-gray-300 rounded-lg shadow-md bg-white">
+          <Routes>
+            <Route path="/" element={<LoginPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/dashboard" element={<UserPage />} />
+            <Route path="/add-entry" element={<AddEntryPage />} />
+          </Routes>
+        </div>
+      </div>
     </Router>
   );
 }
