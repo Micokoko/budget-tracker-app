@@ -1,9 +1,9 @@
 class Entry < ApplicationRecord
   belongs_to :user
 
-  validates :date, presense: true
+  validates :date, presence: true
   validates :entry_type, inclusion: { in: %w[Income Expense Liability]}
-  validates :description, presense: true
+  validates :description, presence: true
   validates :amount, numericality: { greater_than: 0}
 
   after_save :update_user_cash

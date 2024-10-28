@@ -21,11 +21,14 @@ module BudgetTrackerBackend
     
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins '*'
+        origins '*' # Change this to your frontend's origin in production
         resource '*',
-                headers: :any,
-                methods: [:get, :post, :put, :patch, :delete, :options, :head],
-                credentials: true
+          headers: :any,
+          methods: [:get, :post, :put, :patch, :delete, :options, :head],
+          expose: ['access-token', 'expiry', 'token-type', 'uid', 'client'] # Add any specific headers you want to expose
+      end
+    end
+    
 
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
