@@ -32,7 +32,7 @@ function LoginPage() {
 
     return (
         <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg">
-            <h1 className="text-2xl font-bold text-center">Login</h1>
+            <h1 className="text-2xl font-bold text-center">BUDGET INU</h1>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                     <label className="block text-sm font-medium text-gray-700" htmlFor="email">Email</label>

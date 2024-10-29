@@ -10,10 +10,18 @@ function UserPage() {
 
     return (
         <div className="flex flex-col items-center justify-center">
-            <h1 className="text-2xl font-bold mb-4">User Page</h1>
-            {userName && <h2 className="text-xl">Hello, {userName}!</h2>}
-            {cash && <p className="text-lg">Cash: ${cash}</p>}
-            {liabilities && <p className="text-lg">Liabilities: ${liabilities}</p>}
+            <div className="container mx-auto">
+                {userName && (
+                    <div className="bg-white shadow-md rounded-lg p-6">
+                        <h2 className="text-xl font-bold mb-2">Hello, {userName}!</h2>
+                        <div className="flex justify-between">
+                            <p className="text-lg">Cash: ${cash}</p>
+                            <p className="text-lg">Liabilities: ${liabilities}</p>
+                        </div>
+                    </div>
+                )}
+            </div>
+
             <div className="mt-4">
                 <button 
                     onClick={() => {
@@ -26,6 +34,7 @@ function UserPage() {
                 >
                     Log-out
                 </button>
+
                 <button 
                     onClick={() => navigate('/add-entry')} 
                     className="px-4 py-2 font-bold text-white bg-blue-600 rounded-md hover:bg-blue-700"
