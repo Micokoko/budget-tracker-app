@@ -6,12 +6,11 @@ import SignUpPage from './components/SignUpPage';
 import UserPage from './components/UserPage';
 import AddEntryPage from './components/AddEntryPage';
 
-
 const App = () => {
   return (
     <Router>
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <div className="max-w-xs w-full p-6 border border-gray-300 rounded-lg shadow-md bg-white">
+        <div className="w-full h-full p-6 border border-gray-300 rounded-lg shadow-md bg-white overflow-y-auto">
           <Routes>
             <Route path="/" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
