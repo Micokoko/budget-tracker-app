@@ -4,14 +4,13 @@ import { UserContext } from '../UserContext';
 
 function AddEntryPage() {
     const navigate = useNavigate();
-    const { username } = useContext(UserContext); 
+    const { username, addEntry } = useContext(UserContext); // Destructure addEntry from context
 
     const [date, setDate] = useState('');
     const [entryType, setEntryType] = useState('Income'); 
     const [description, setDescription] = useState('');
     const [amount, setAmount] = useState('');
     const [error, setError] = useState('');
-
 
     const handleAddEntry = async (event) => {
         event.preventDefault();
@@ -35,13 +34,14 @@ function AddEntryPage() {
         });
     
         if (response.ok) {
+            const newEntry = await response.json(); // Assuming your API returns the new entry
+            addEntry(newEntry); // Use the addEntry function to update the context state
             navigate('/dashboard');
         } else {
             setError('Failed to add entry');
             console.error('Failed to add entry');
         }
     };
-        
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
