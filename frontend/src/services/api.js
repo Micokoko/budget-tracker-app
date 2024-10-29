@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const API_URL = 'http://127.0.0.1:3000';
 
-
 const apiClient = axios.create({
     baseURL: API_URL,
     headers: {
@@ -26,4 +25,9 @@ export const loginUser = async (credentials) => {
 export const signupUser = async (userData) => {
     const response = await apiClient.post('/users', userData);
     return response.data;
+};
+
+export const fetchEntriesByUsername = async (username) => {
+    const response = await apiClient.get(`/entries?username=${username}`);
+    return response.data; 
 };

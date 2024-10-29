@@ -9,4 +9,7 @@ Rails.application.routes.draw do
   # root "posts#index"
   resources :users
   resources :entries
+
+  resources :entries, only: [:create, :index]
+
 end

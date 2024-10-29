@@ -7,6 +7,6 @@ class UsersController < ApplicationController
   end
 
   def current
-    render json: { name: current_user.name }
+    render json: { username: current_user.username }
   end
 end

@@ -26,7 +26,7 @@ function LoginPage() {
 
             setUsername(result.user.username); 
 
-            localStorage.setItem('userName', result.user.name);
+            localStorage.setItem('username', result.user.username);
             localStorage.setItem('cash', result.user.cash);
             localStorage.setItem('liabilities', result.user.liabilities);
 

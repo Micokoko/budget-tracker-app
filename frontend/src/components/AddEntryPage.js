@@ -1,22 +1,26 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../UserContext'; // Import UserContext
+import { UserContext } from '../UserContext'; 
 
 function AddEntryPage() {
     const navigate = useNavigate();
-    const { username } = useContext(UserContext); // Access username from context
+    const { username } = useContext(UserContext); 
 
-    // State variables for form inputs
     const [date, setDate] = useState('');
-    const [entryType, setEntryType] = useState('Income'); // Default to Income
+    const [entryType, setEntryType] = useState('Income'); 
     const [description, setDescription] = useState('');
     const [amount, setAmount] = useState('');
     const [error, setError] = useState('');
 
-    const handleAddEntry = async (event) => {
-        event.preventDefault(); // Prevent default form submission
 
-        // Implement the logic to add an entry, using the username
+    const handleAddEntry = async (event) => {
+        event.preventDefault();
+    
+        if (!username) {
+            setError('Username is required');
+            return;
+        }
+    
         const response = await fetch(`http://localhost:3000/entries?username=${username}`, {
             method: 'POST',
             headers: {
@@ -26,17 +30,18 @@ function AddEntryPage() {
                 date,
                 entry_type: entryType,
                 description,
-                amount: parseFloat(amount), // Ensure amount is a number
+                amount: parseFloat(amount),
             }),
         });
-
+    
         if (response.ok) {
-            navigate('/dashboard'); // Redirect after successful entry
+            navigate('/dashboard');
         } else {
             setError('Failed to add entry');
             console.error('Failed to add entry');
         }
     };
+        
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
@@ -64,7 +69,7 @@ function AddEntryPage() {
                         >
                             <option value="Income">Income</option>
                             <option value="Expense">Expense</option>
-                            <option value="Expense">Liabilities</option>
+                            <option value="Liability">Liabilities</option>
                         </select>
                     </div>
                     <div>

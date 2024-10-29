@@ -1,7 +1,6 @@
 class AddUserIdToEntries < ActiveRecord::Migration[6.0]
   def change
-    unless column_exists?(:entries, :user_id)
-      add_reference :entries, :user, null: false, foreign_key: true
-    end
+      add_column :entries, :user_id, :integer
+      add_index :entries, :user_id
   end
 end

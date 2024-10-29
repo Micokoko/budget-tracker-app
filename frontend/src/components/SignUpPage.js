@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { signupUser } from '../services/api';
 
 const SignUpPage = () => {
     const [formData, setFormData] = useState({
-        name: '',
         username: '',
         email: '',
         password: '',
@@ -27,13 +25,12 @@ const SignUpPage = () => {
         e.preventDefault();
         setError(null);
         setSuccessMessage(null);
-    
+
         console.log('Form Data:', formData);
-    
+
         try {
-            const response = await signupUser ({
+            const response = await signupUser({
                 user: {
-                    name: formData.name,
                     username: formData.username,
                     email: formData.email,
                     password: formData.password,
@@ -44,7 +41,6 @@ const SignUpPage = () => {
             });
             setSuccessMessage('Registration successful!');
             setFormData({
-                name: '',
                 username: '',
                 email: '',
                 password: '',
@@ -52,7 +48,7 @@ const SignUpPage = () => {
                 cash: 0,
                 liabilities: 0
             });
-            navigate('/')
+            navigate('/');
         } catch (error) {
             if (error.response) {
                 setError(error.response.data.errors || 'Registration failed. Please try again.');
@@ -61,25 +57,13 @@ const SignUpPage = () => {
             }
         }
     };
-    
+
     return (
         <div className="max-w-md mx-auto p-4 bg-white rounded shadow-md">
             <h2 className="text-lg font-bold mb-4">Register</h2>
             {error && <div className="text-red-500 mb-2">{error}</div>}
             {successMessage && <div className="text-green-500 mb-2">{successMessage}</div>}
             <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1" htmlFor="name">Name</label>
-                    <input
-                        type="text"
-                        name="name"
-                        id="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        className="w-full p-2 border border-gray-300 rounded"
-                        required
-                    />
-                </div>
                 <div className="mb-4">
                     <label className="block text-sm font-medium mb-1" htmlFor="username">Username</label>
                     <input

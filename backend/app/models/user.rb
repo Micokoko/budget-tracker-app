@@ -3,7 +3,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  validates :name, presence: true
   validates :username, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
   validates :password, presence: true, length: { minimum: 6 }
@@ -12,6 +11,7 @@ class User < ApplicationRecord
 
   after_create :create_user_entries_table
 
+  has_many :entries
 
   def create_user_entries_table
     table_name = "user_#{username}_entries"

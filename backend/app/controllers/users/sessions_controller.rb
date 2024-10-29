@@ -7,7 +7,7 @@ class Users::SessionsController < ApplicationController
         if user&.valid_password?(params[:password])
         render json: {
             message: 'Login successful',
-            user: user.as_json(only: [:id, :name, :username, :email, :cash, :liabilities]) 
+            user: user.as_json(only: [:id, :username, :email, :cash, :liabilities]) 
         }, status: :ok
         else
         render json: { errors: ['Invalid email or password'] }, status: :unauthorized
