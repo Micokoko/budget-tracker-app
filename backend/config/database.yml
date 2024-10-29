@@ -8,8 +8,8 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: 5
-  username: <%= ENV['DB_USERNAME'] %> # Change this if you want to use a static username
-  password: <%= ENV['DB_PASSWORD'] %> # Change this if you want to use a static password
+  username: <%= ENV['DATABASE_USERNAME'] %> # Change this if you want to use a static username
+  password: <%= ENV['DATABASE_PASSWORD'] %> # Change this if you want to use a static password
   host: localhost
 
 development:

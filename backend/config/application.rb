@@ -28,6 +28,8 @@ module BudgetTrackerBackend
           expose: ['access-token', 'expiry', 'token-type', 'uid', 'client'] # Add any specific headers you want to expose
       end
     end
+
+    
     
 
     # These settings can be overridden in specific environments using the files
