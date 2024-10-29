@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { signupUser } from '../services/api';
 
 const SignUpPage = () => {
     const [formData, setFormData] = useState({
@@ -8,9 +9,9 @@ const SignUpPage = () => {
         username: '',
         email: '',
         password: '',
-        password_confirmation: '', // Matches the backend
-        cash: 0, // Default value for cash
-        liabilities: 0 // Default value for liabilities
+        password_confirmation: '',
+        cash: 0,
+        liabilities: 0
     });
 
     const [error, setError] = useState(null);
@@ -30,7 +31,7 @@ const SignUpPage = () => {
         console.log('Form Data:', formData);
     
         try {
-            const response = await axios.post('http://127.0.0.1:3000/users', {
+            const response = await signupUser ({
                 user: {
                     name: formData.name,
                     username: formData.username,

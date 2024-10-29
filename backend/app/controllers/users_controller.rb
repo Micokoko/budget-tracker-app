@@ -1,10 +1,9 @@
 class UsersController < ApplicationController
-  # Ensure user is authenticated for all actions except index
   before_action :authenticate_user!, except: [:index]
 
   def index
     @users = User.all
-    render json: @users  # Render users as JSON
+    render json: @users 
   end
 
   def current
