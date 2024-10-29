@@ -54,19 +54,17 @@ function UserPage() {
                 </div>
             </div>
 
-
             <div className="fixed top-40 left-0 right-0 bg-white z-10 p-4">
                 <div className="flex justify-between">
                     <input type="date" className="border rounded-md p-2" />
                     <button 
-                        onClick={() => navigate('/add-entry')} 
+                        onClick={() => navigate(`/add-entry?username=${userName}`)}
                         className="ml-2 px-4 py-2 font-bold text-white bg-blue-600 rounded-md hover:bg-blue-700"
                     >
                         Add Entry
                     </button>
                 </div>
             </div>
-
 
             <div className="flex-1 mt-40 pt-16"> 
                 <div className="flex-1">

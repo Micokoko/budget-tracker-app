@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react"; 
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../services/api";
+import { UserContext } from '../UserContext'; 
 
 function LoginPage() {
     const navigate = useNavigate();
+    const { setUsername } = useContext(UserContext); 
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -20,13 +22,17 @@ function LoginPage() {
         try {
             const result = await loginUser(credentials); 
             console.log(result);
+
+
+            setUsername(result.user.username); 
+
             localStorage.setItem('userName', result.user.name);
             localStorage.setItem('cash', result.user.cash);
             localStorage.setItem('liabilities', result.user.liabilities);
 
             navigate("/dashboard");
         } catch (error) {
-            setError(error); 
+            setError(error.message);
         }
     };
 

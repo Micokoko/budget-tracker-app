@@ -1,3 +1,4 @@
+// src/App.js
 import './App.css';
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -5,21 +6,24 @@ import LoginPage from './components/LoginPage';
 import SignUpPage from './components/SignUpPage';
 import UserPage from './components/UserPage';
 import AddEntryPage from './components/AddEntryPage';
+import { UserProvider } from './UserContext'; 
 
 const App = () => {
   return (
-    <Router>
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <div className="w-full h-full p-6 border border-gray-300 rounded-lg shadow-md bg-white overflow-y-auto">
-          <Routes>
-            <Route path="/" element={<LoginPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/dashboard" element={<UserPage />} />
-            <Route path="/add-entry" element={<AddEntryPage />} />
-          </Routes>
+    <UserProvider>
+      <Router>
+        <div className="flex items-center justify-center min-h-screen bg-gray-100">
+          <div className="w-full h-full p-6 border border-gray-300 rounded-lg shadow-md bg-white overflow-y-auto">
+            <Routes>
+              <Route path="/" element={<LoginPage />} />
+              <Route path="/signup" element={<SignUpPage />} />
+              <Route path="/dashboard" element={<UserPage />} />
+              <Route path="/add-entry" element={<AddEntryPage />} />
+            </Routes>
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </UserProvider>
   );
 }
 
