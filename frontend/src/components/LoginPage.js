@@ -27,9 +27,11 @@ function LoginPage() {
 
             if (response.ok) {
                 const result = await response.json();
-                console.log(result); 
-                
+                console.log(result);
                 localStorage.setItem('userName', result.user.name);
+                localStorage.setItem('cash', result.user.cash); 
+                localStorage.setItem('liabilities', result.user.liabilities);
+
 
                 navigate("/dashboard"); 
             } else {
