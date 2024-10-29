@@ -3,13 +3,16 @@ import { useNavigate } from 'react-router-dom';
 
 function UserPage() {
     const navigate = useNavigate();
-
     const userName = localStorage.getItem('userName'); 
 
     return (
         <div className="flex flex-col items-center justify-center">
             <h1 className="text-2xl font-bold mb-4">User Page</h1>
-            {userName && <h2 className="text-xl">Hello, {userName}!</h2>}
+            {userName ? (
+                <h2 className="text-xl">Hello, {userName}!</h2>
+            ) : (
+                <h2 className="text-xl">Hello, Guest!</h2>
+            )}
             <div className="mt-4">
                 <button 
                     onClick={() => {
