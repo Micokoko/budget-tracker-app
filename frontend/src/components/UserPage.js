@@ -115,7 +115,7 @@ function UserPage() {
                                 >
                                     <td className="px-4 py-2">{entry.description}</td>
                                     <td className="px-4 py-2">{entry.entry_type}</td>
-                                    <td className="px-4 py-2">{entry.entry_type === 'Expense' || entry.entry_type === 'Liability' ? formatCurrency(entry.amount) : '-'}</td>
+                                    <td className="px-4 py-2">{entry.entry_type === 'Expense' || entry.entry_type === 'Liability' || entry.entry_type === 'Settlement' ? formatCurrency(entry.amount) : '-'}</td>
                                     <td className="px-4 py-2">{entry.entry_type === 'Income' ? formatCurrency(entry.amount) : '-'}</td>
                                 </tr>
                             ))

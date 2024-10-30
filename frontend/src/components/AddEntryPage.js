@@ -43,6 +43,7 @@ function AddEntryPage() {
         }
     
         let currentCash = parseFloat(localStorage.getItem('cash')) || 0;
+        let currentLiability = parseFloat(localStorage.getItem('liabilities')) || 0;
     
         const payload = {
             date,
@@ -79,9 +80,15 @@ function AddEntryPage() {
             } else if (payload.entry_type === 'Expense') {
                 currentCash -= (payload.amount - oldAmount); 
             } else if (payload.entry_type === 'Liability') {
+                currentLiability += (payload.amount - oldAmount)
+            } else if (payload.entry_type === 'Settlement') {
+                currentCash -= (payload.amount - oldAmount); 
+                currentLiability -= (payload.amount - oldAmount)
             }
+
     
             localStorage.setItem('cash', currentCash.toFixed(2));
+            localStorage.setItem('liabilities', currentLiability.toFixed(2));
     
             addEntry(updatedEntry);
             navigate('/dashboard');
