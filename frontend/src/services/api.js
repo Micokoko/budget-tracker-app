@@ -31,3 +31,23 @@ export const fetchEntriesByUsername = async (username) => {
     const response = await apiClient.get(`/entries?username=${username}`);
     return response.data; 
 };
+
+// New function to get an entry by ID, including username
+export const getEntryById = async (id, username) => {
+    const response = await fetch(`http://localhost:3000/entries/${id}?username=${username}`);
+    
+    if (!response.ok) {
+        throw new Error('Failed to fetch entry');
+    }
+    
+    return await response.json();
+};
+
+
+
+
+// New function to delete an entry by ID, including username
+export const deleteEntryById = async (id, username) => {
+    const response = await apiClient.delete(`/entries/${id}?username=${username}`);
+    return response.data; // This can be the response message or status you want to handle
+};

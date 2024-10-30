@@ -1,8 +1,9 @@
 class EntriesController < ApplicationController
     before_action :set_user
+    before_action :set_entry, only: [:destroy, :update, :show]
 
     def create
-        @entry = @user.entries.new(entry_params)  # Changed from entries_model to entries
+        @entry = @user.entries.new(entry_params)
 
         if @entry.save
             update_user_finances(@entry)
@@ -13,22 +14,55 @@ class EntriesController < ApplicationController
     end
 
     def index
-        entries = @user.entries  # Use @user instance variable directly
+        entries = @user.entries
         render json: entries
-        rescue StandardError => e
+    rescue StandardError => e
         logger.error "Error fetching entries: #{e.message}"
         render json: { error: 'Internal server error' }, status: :internal_server_error
+    end
+
+    def show
+        render json: @entry
+    end
+
+    def update
+        old_entry = @entry.dup
+
+        if @entry.update(entry_params)
+            adjust_user_finances_for_update(old_entry, @entry)  
+            render json: { message: 'Entry updated successfully', entry: @entry }, status: :ok
+        else
+            render json: { error: 'Failed to update entry' }, status: :unprocessable_entity
+        end
+    end
+
+    def destroy
+        adjust_user_finances(@entry)
+
+        if @entry.destroy
+            render json: { message: 'Entry deleted successfully' }, status: :ok
+        else
+            render json: { error: 'Failed to delete entry' }, status: :unprocessable_entity
+        end
     end
 
     private
 
     def set_user
+        Rails.logger.info "Params: #{params.inspect}" # Log all parameters for debugging
         @user = User.find_by(username: params[:username])
-        render json: { error: 'User not found' }, status: :not_found unless @user
+        unless @user
+            render json: { error: 'User not found' }, status: :not_found and return
+        end
+    end
+
+    def set_entry
+        @entry = @user.entries.find_by(id: params[:id])
+        render json: { error: 'Entry not found' }, status: :not_found unless @entry
     end
 
     def entry_params
-        params.require(:entry).permit(:date, :entry_type, :description, :amount)
+        params.permit(:date, :entry_type, :description, :amount)
     end
 
     def update_user_finances(entry)
@@ -39,11 +73,32 @@ class EntriesController < ApplicationController
             @user.cash -= entry.amount
         when 'Liability'
             @user.liabilities += entry.amount
+        end
+
+        @user.cash = [@user.cash, 0].max
+        @user.liabilities = [@user.liabilities, 0].max
+
+        @user.update_columns(cash: @user.cash, liabilities: @user.liabilities)
     end
 
-    @user.cash = [@user.cash, 0].max
-    @user.liabilities = [@user.liabilities, 0].max
+    def adjust_user_finances(entry)
+        case entry.entry_type
+        when 'Income'
+            @user.cash -= entry.amount
+        when 'Expense'
+            @user.cash += entry.amount
+        when 'Liability'
+            @user.liabilities -= entry.amount
+        end
 
-    @user.update_columns(cash: @user.cash, liabilities: @user.liabilities)
+        @user.cash = [@user.cash, 0].max
+        @user.liabilities = [@user.liabilities, 0].max
+
+        @user.update_columns(cash: @user.cash, liabilities: @user.liabilities)
+    end
+
+    def adjust_user_finances_for_update(old_entry, new_entry)
+        adjust_user_finances(old_entry)
+        update_user_finances(new_entry)
     end
 end

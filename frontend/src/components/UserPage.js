@@ -43,6 +43,10 @@ function UserPage() {
         navigate(`/add-entry?username=${userName}`);
     };
 
+    const handleEntryClick = (entry) => {
+        navigate(`/add-entry?username=${userName}&id=${entry.id}&date=${entry.date}&entry_type=${entry.entry_type}&description=${entry.description}&amount=${entry.amount}`);
+    };
+
     const formatCurrency = (amount) => {
         return `₱${Number(amount).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     };
@@ -76,7 +80,7 @@ function UserPage() {
                 </div>
             </div>
 
-            <div className="flex-1  overflow-y-auto">
+            <div className="flex-1 overflow-y-auto">
                 <table className="table-auto w-full">
                     <thead>
                         <tr className="bg-gray-200">
@@ -89,7 +93,11 @@ function UserPage() {
                     <tbody>
                         {entries.length > 0 ? (
                             entries.map((entry, index) => (
-                                <tr key={index} className="border-b">
+                                <tr
+                                    key={index}
+                                    className="border-b cursor-pointer hover:bg-gray-100"
+                                    onClick={() => handleEntryClick(entry)}
+                                >
                                     <td className="px-4 py-2">{entry.description}</td>
                                     <td className="px-4 py-2">{entry.entry_type}</td>
                                     <td className="px-4 py-2">{entry.entry_type === 'Expense' || entry.entry_type === 'Liability' ? formatCurrency(entry.amount) : '-'}</td>
@@ -101,7 +109,6 @@ function UserPage() {
                                 <td colSpan="4" className="text-center px-4 py-2">No entries found.</td>
                             </tr>
                         )}
-                        
                     </tbody>
                 </table>
             </div>
