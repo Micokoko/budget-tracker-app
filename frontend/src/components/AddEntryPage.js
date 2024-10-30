@@ -36,22 +36,31 @@ function AddEntryPage() {
 
     const handleAddOrEditEntry = async (event) => {
         event.preventDefault();
-
+    
         if (!username) {
             setError('Username is required');
             return;
         }
-
+    
+        let currentCash = parseFloat(localStorage.getItem('cash')) || 0;
+    
         const payload = {
             date,
             entry_type: entryType,
             description,
             amount: parseFloat(amount),
         };
-
+    
         const url = id ? `http://localhost:3000/entries/${id}?username=${username}` : `http://localhost:3000/entries?username=${username}`;
         const method = id ? 'PUT' : 'POST';
+    
 
+        let oldAmount = 0;
+        if (id) {
+            const existingEntry = await getEntryById(id, username); 
+            oldAmount = existingEntry.amount;
+        }
+    
         const response = await fetch(url, {
             method,
             headers: {
@@ -59,9 +68,19 @@ function AddEntryPage() {
             },
             body: JSON.stringify(payload),
         });
-
+    
         if (response.ok) {
             const updatedEntry = await response.json();
+    
+            if (payload.entry_type === 'Income') {
+                currentCash += (payload.amount - oldAmount); 
+            } else if (payload.entry_type === 'Expense') {
+                currentCash -= (payload.amount - oldAmount); 
+            } else if (payload.entry_type === 'Liability') {
+            }
+    
+            localStorage.setItem('cash', currentCash.toFixed(2));
+    
             addEntry(updatedEntry);
             navigate('/dashboard');
         } else {
@@ -69,6 +88,8 @@ function AddEntryPage() {
             console.error('Failed to add or update entry');
         }
     };
+    
+    
 
     const handleDeleteEntry = async () => {
         if (id) {
@@ -76,15 +97,27 @@ function AddEntryPage() {
                 setError('Username is required');
                 return;
             }
-            
+    
             try {
+                const existingEntry = await getEntryById(id, username);
+                const amountToRemove = existingEntry.amount;
+    
+                let currentCash = parseFloat(localStorage.getItem('cash')) || 0;
+    
+                currentCash -= amountToRemove;
+    
+
+                localStorage.setItem('cash', currentCash.toFixed(2));
+    
                 await deleteEntryById(id, username); 
                 navigate('/dashboard'); 
             } catch (err) {
                 setError('Failed to delete entry');
+                console.error('Failed to delete entry', err);
             }
         }
     };
+    
     
 
     return (

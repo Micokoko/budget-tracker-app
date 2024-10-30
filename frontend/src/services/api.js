@@ -27,12 +27,14 @@ export const signupUser = async (userData) => {
     return response.data;
 };
 
-export const fetchEntriesByUsername = async (username) => {
-    const response = await apiClient.get(`/entries?username=${username}`);
-    return response.data; 
+export const fetchEntriesByUsername = async (username, date) => {
+    const response = await fetch(`http://localhost:3000/entries?username=${username}&date=${date}`);
+    if (!response.ok) {
+        throw new Error(`Error fetching entries: ${response.status}`);
+    }
+    return await response.json();
 };
 
-// New function to get an entry by ID, including username
 export const getEntryById = async (id, username) => {
     const response = await fetch(`http://localhost:3000/entries/${id}?username=${username}`);
     
@@ -46,8 +48,7 @@ export const getEntryById = async (id, username) => {
 
 
 
-// New function to delete an entry by ID, including username
 export const deleteEntryById = async (id, username) => {
     const response = await apiClient.delete(`/entries/${id}?username=${username}`);
-    return response.data; // This can be the response message or status you want to handle
+    return response.data; 
 };

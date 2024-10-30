@@ -15,6 +15,7 @@ class EntriesController < ApplicationController
 
     def index
         entries = @user.entries
+        entries = entries.where(date: params[:date]) if params[:date].present?
         render json: entries
     rescue StandardError => e
         logger.error "Error fetching entries: #{e.message}"
@@ -49,7 +50,7 @@ class EntriesController < ApplicationController
     private
 
     def set_user
-        Rails.logger.info "Params: #{params.inspect}" # Log all parameters for debugging
+        Rails.logger.info "Params: #{params.inspect}"
         @user = User.find_by(username: params[:username])
         unless @user
             render json: { error: 'User not found' }, status: :not_found and return

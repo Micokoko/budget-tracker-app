@@ -1,4 +1,3 @@
-// src/components/UserPage.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchEntriesByUsername } from '../services/api';
@@ -10,10 +9,18 @@ function UserPage() {
     const [liabilities, setLiabilities] = useState(Number(localStorage.getItem('liabilities')) || 0);
     const userName = localStorage.getItem('username');
 
+    // Set default date to today's date
+    const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+    const [error, setError] = useState('');
+
     const calculateTotals = (entries) => {
         const totalIncome = entries.reduce((sum, entry) => sum + (entry.entry_type === 'Income' ? Number(entry.amount) : 0), 0);
         const totalExpense = entries.reduce((sum, entry) => sum + (entry.entry_type === 'Expense' || entry.entry_type === 'Liability' ? Number(entry.amount) : 0), 0);
         return { totalIncome, totalExpense };
+    };
+
+    const handleDateChange = (event) => {
+        setDate(event.target.value);
     };
 
     const { totalIncome, totalExpense } = calculateTotals(entries);
@@ -22,15 +29,17 @@ function UserPage() {
         const fetchEntries = async () => {
             if (!userName) return; 
             try {
-                const data = await fetchEntriesByUsername(userName);
+                const data = await fetchEntriesByUsername(userName, date);
                 setEntries(data);
+                setError(''); 
             } catch (error) {
                 console.error("Error fetching entries:", error);
+                setError('Failed to fetch entries. Please try again.');
             }
         };
 
         fetchEntries();
-    }, [userName]);
+    }, [userName, date]); // Ensure date is included as a dependency
 
     const handleLogout = () => {
         localStorage.removeItem('username');
@@ -52,7 +61,7 @@ function UserPage() {
     };
 
     return (
-        <div className="flex flex-col h-full border-4  border-gray-300">
+        <div className="flex flex-col h-full border-4 border-gray-300">
             <div className="fixed-top p-4 bg-white border-b border-gray-300">
                 <div className="flex justify-center mb-2">
                     <div className="bg-white border border-gray-300 rounded-lg shadow-md p-4 w-full">
@@ -70,7 +79,12 @@ function UserPage() {
                     </div>
                 </div>
                 <div className="flex justify-between mt-4">
-                    <input type="date" className="border rounded-md p-2" />
+                    <input
+                        type="date"
+                        className="border rounded-md p-2"
+                        value={date} 
+                        onChange={handleDateChange} 
+                    />
                     <button
                         onClick={handleEntryAddition}
                         className="ml-2 px-4 py-2 font-bold text-white bg-blue-600 rounded-md hover:bg-blue-700"
@@ -78,6 +92,7 @@ function UserPage() {
                         Add Entry
                     </button>
                 </div>
+                {error && <p className="text-red-600 text-center mt-2">{error}</p>} {/* Error Message */}
             </div>
 
             <div className="flex-1 overflow-y-auto">
@@ -94,7 +109,7 @@ function UserPage() {
                         {entries.length > 0 ? (
                             entries.map((entry, index) => (
                                 <tr
-                                    key={index}
+                                    key={entry.id} // Use entry.id for unique keys
                                     className="border-b cursor-pointer hover:bg-gray-100"
                                     onClick={() => handleEntryClick(entry)}
                                 >
