@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { fetchEntriesByUsername } from '../services/api';
 
 function UserPage() {
     const navigate = useNavigate();
+    const { search } = useLocation();
+    const query = new URLSearchParams(search);
     const [entries, setEntries] = useState([]);
     const [cash, setCash] = useState(Number(localStorage.getItem('cash')) || 0);
     const [liabilities, setLiabilities] = useState(Number(localStorage.getItem('liabilities')) || 0);
     const userName = localStorage.getItem('username');
 
-    const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+    const [date, setDate] = useState(query.get('date') || new Date().toISOString().split('T')[0]);
     const [error, setError] = useState('');
 
     const calculateTotals = (entries) => {
@@ -19,16 +21,17 @@ function UserPage() {
     };
 
     const handleDateChange = (event) => {
-        setDate(event.target.value);
+        const newDate = event.target.value;
+        setDate(newDate);
+        navigate(`/dashboard?date=${newDate}`); 
     };
 
     const { totalIncome, totalExpense } = calculateTotals(entries);
-    const totaIncomeLessExpense = totalIncome - totalExpense
-
+    const totaIncomeLessExpense = totalIncome - totalExpense;
 
     useEffect(() => {
         const fetchEntries = async () => {
-            if (!userName) return; 
+            if (!userName || !date) return; 
             try {
                 const data = await fetchEntriesByUsername(userName, date);
                 setEntries(data);
@@ -131,11 +134,9 @@ function UserPage() {
 
             <div className="fixed-bottom p-4 bg-white border-t border-gray-300">
                 <div className="flex justify-between items-center">
-
                     <div className="flex space-x-4">
                         <span className="font-bold text-l">Income: {formatCurrency(totalIncome)}</span>
                         <span className="font-bold text-l">Expense: {formatCurrency(totalExpense)}</span>
-
                         <span className="font-bold text-l">Total: {formatCurrency(totaIncomeLessExpense)}</span>
                     </div>
                 </div>
