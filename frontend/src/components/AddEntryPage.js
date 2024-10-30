@@ -10,7 +10,7 @@ function AddEntryPage() {
     const query = new URLSearchParams(search);
 
     const [id, setId] = useState(query.get('id') || '');
-    const [date, setDate] = useState('');
+    const [date, setDate] = useState(query.get('date') || '');
     const [entryType, setEntryType] = useState('Income');
     const [description, setDescription] = useState('');
     const [amount, setAmount] = useState('');
@@ -60,6 +60,8 @@ function AddEntryPage() {
             const existingEntry = await getEntryById(id, username); 
             oldAmount = existingEntry.amount;
         }
+
+    
     
         const response = await fetch(url, {
             method,
@@ -147,6 +149,7 @@ function AddEntryPage() {
                             <option value="Income">Income</option>
                             <option value="Expense">Expense</option>
                             <option value="Liability">Liabilities</option>
+                            <option value="Settlement">Settlement</option>
                         </select>
                     </div>
                     <div>

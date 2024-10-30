@@ -74,6 +74,9 @@ class EntriesController < ApplicationController
             @user.cash -= entry.amount
         when 'Liability'
             @user.liabilities += entry.amount
+        when 'Settlement'
+            @user.liabilities -= entry.amount
+            @user.cash -= entry.amount
         end
 
         @user.cash = [@user.cash, 0].max
@@ -90,6 +93,9 @@ class EntriesController < ApplicationController
             @user.cash += entry.amount
         when 'Liability'
             @user.liabilities -= entry.amount
+        when 'Settlement'
+            @user.liabilities -= entry.amount
+            @user.cash -= entry.amount
         end
 
         @user.cash = [@user.cash, 0].max

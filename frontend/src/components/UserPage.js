@@ -9,7 +9,7 @@ function UserPage() {
     const [liabilities, setLiabilities] = useState(Number(localStorage.getItem('liabilities')) || 0);
     const userName = localStorage.getItem('username');
 
-    // Set default date to today's date
+
     const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
     const [error, setError] = useState('');
 
@@ -39,7 +39,7 @@ function UserPage() {
         };
 
         fetchEntries();
-    }, [userName, date]); // Ensure date is included as a dependency
+    }, [userName, date]); 
 
     const handleLogout = () => {
         localStorage.removeItem('username');
@@ -49,7 +49,7 @@ function UserPage() {
     };
 
     const handleEntryAddition = () => {
-        navigate(`/add-entry?username=${userName}`);
+        navigate(`/add-entry?username=${userName}&date=${date}`);
     };
 
     const handleEntryClick = (entry) => {
@@ -92,7 +92,7 @@ function UserPage() {
                         Add Entry
                     </button>
                 </div>
-                {error && <p className="text-red-600 text-center mt-2">{error}</p>} {/* Error Message */}
+                {error && <p className="text-red-600 text-center mt-2">{error}</p>} 
             </div>
 
             <div className="flex-1 overflow-y-auto">
@@ -109,7 +109,7 @@ function UserPage() {
                         {entries.length > 0 ? (
                             entries.map((entry, index) => (
                                 <tr
-                                    key={entry.id} // Use entry.id for unique keys
+                                    key={entry.id} 
                                     className="border-b cursor-pointer hover:bg-gray-100"
                                     onClick={() => handleEntryClick(entry)}
                                 >

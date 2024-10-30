@@ -4,7 +4,7 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.string :name
       t.string :username
       t.string :email, null: false, default: ""
-      t.string :encrypted_password, null: false, default: ""  # Change this field if you had password_digest
+      t.string :encrypted_password, null: false, default: "" 
       t.decimal :cash, default: 0.0
       t.decimal :liabilities, default: 0.0
       t.timestamps
