@@ -12,8 +12,8 @@ const App = () => {
   return (
     <UserProvider>
       <Router>
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-          <div className="w-full h-full p-6 border border-gray-300 rounded-lg shadow-md bg-white overflow-y-auto">
+        <div className="flex min-h-screen bg-gray-100">
+          <div className="w-screen h-screen items-center justify-center flex flex-col border border-gray-300 rounded-lg shadow-md overflow-hidden">
             <Routes>
               <Route path="/" element={<LoginPage />} />
               <Route path="/signup" element={<SignUpPage />} />

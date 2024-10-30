@@ -59,7 +59,7 @@ const SignUpPage = () => {
     };
 
     return (
-        <div className="max-w-md mx-auto p-4 bg-white rounded shadow-md">
+        <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg">
             <h2 className="text-lg font-bold mb-4">Register</h2>
             {error && <div className="text-red-500 mb-2">{error}</div>}
             {successMessage && <div className="text-green-500 mb-2">{successMessage}</div>}

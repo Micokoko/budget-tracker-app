@@ -34,8 +34,8 @@ function AddEntryPage() {
         });
     
         if (response.ok) {
-            const newEntry = await response.json(); // Assuming your API returns the new entry
-            addEntry(newEntry); // Use the addEntry function to update the context state
+            const newEntry = await response.json();
+            addEntry(newEntry); 
             navigate('/dashboard');
         } else {
             setError('Failed to add entry');
@@ -44,7 +44,7 @@ function AddEntryPage() {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+        <div className="w-full flex flex-col items-center justify-center">
             <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg">
                 <h1 className="text-2xl font-bold text-center">Add Entry</h1>
                 <form onSubmit={handleAddEntry} className="space-y-4">
