@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { UserContext } from '../UserContext'; 
-import { deleteEntryById, getEntryById } from '../services/api';
+import { deleteEntryById, getEntryById, API_URL } from '../services/api';
+
 
 function AddEntryPage() {
     const navigate = useNavigate();
@@ -52,7 +53,7 @@ function AddEntryPage() {
             amount: parseFloat(amount),
         };
     
-        const url = id ? `http://localhost:3000/entries/${id}?username=${username}` : `http://localhost:3000/entries?username=${username}`;
+        const url = id ? `${API_URL}/entries/${id}?username=${username}` : `http://localhost:3000/entries?username=${username}`;
         const method = id ? 'PUT' : 'POST';
     
 

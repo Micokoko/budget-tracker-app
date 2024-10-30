@@ -9,7 +9,6 @@ function UserPage() {
     const [liabilities, setLiabilities] = useState(Number(localStorage.getItem('liabilities')) || 0);
     const userName = localStorage.getItem('username');
 
-
     const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
     const [error, setError] = useState('');
 
@@ -25,6 +24,7 @@ function UserPage() {
 
     const { totalIncome, totalExpense } = calculateTotals(entries);
 
+    // Fetch entries when component mounts or when date changes
     useEffect(() => {
         const fetchEntries = async () => {
             if (!userName) return; 
