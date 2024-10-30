@@ -23,8 +23,9 @@ function UserPage() {
     };
 
     const { totalIncome, totalExpense } = calculateTotals(entries);
+    const totaIncomeLessExpense = totalIncome - totalExpense
 
-    // Fetch entries when component mounts or when date changes
+
     useEffect(() => {
         const fetchEntries = async () => {
             if (!userName) return; 
@@ -101,8 +102,8 @@ function UserPage() {
                         <tr className="bg-gray-200">
                             <th className="px-4 py-2">Description</th>
                             <th className="px-4 py-2">Type</th>
-                            <th className="px-4 py-2">Expense</th>
                             <th className="px-4 py-2">Income</th>
+                            <th className="px-4 py-2">Expense</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -115,8 +116,8 @@ function UserPage() {
                                 >
                                     <td className="px-4 py-2">{entry.description}</td>
                                     <td className="px-4 py-2">{entry.entry_type}</td>
-                                    <td className="px-4 py-2">{entry.entry_type === 'Expense' || entry.entry_type === 'Liability' || entry.entry_type === 'Settlement' ? formatCurrency(entry.amount) : '-'}</td>
                                     <td className="px-4 py-2">{entry.entry_type === 'Income' ? formatCurrency(entry.amount) : '-'}</td>
+                                    <td className="px-4 py-2">{entry.entry_type === 'Expense' || entry.entry_type === 'Liability' || entry.entry_type === 'Settlement' ? formatCurrency(entry.amount) : '-'}</td>
                                 </tr>
                             ))
                         ) : (
@@ -130,10 +131,12 @@ function UserPage() {
 
             <div className="fixed-bottom p-4 bg-white border-t border-gray-300">
                 <div className="flex justify-between items-center">
-                    <span className="font-bold text-l">Total</span>
+
                     <div className="flex space-x-4">
-                        <span className="font-bold text-l">Expense: {formatCurrency(totalExpense)}</span>
                         <span className="font-bold text-l">Income: {formatCurrency(totalIncome)}</span>
+                        <span className="font-bold text-l">Expense: {formatCurrency(totalExpense)}</span>
+
+                        <span className="font-bold text-l">Total: {formatCurrency(totaIncomeLessExpense)}</span>
                     </div>
                 </div>
             </div>

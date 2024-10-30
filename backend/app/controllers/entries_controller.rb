@@ -6,7 +6,7 @@ class EntriesController < ApplicationController
         @entry = @user.entries.new(entry_params)
 
         if @entry.save
-            update_user_finances(@entry)
+            adjust_user_finances(@entry)
             render json: @entry, status: :created
         else
             render json: @entry.errors, status: :unprocessable_entity
@@ -28,7 +28,7 @@ class EntriesController < ApplicationController
 
     def update
         old_entry = @entry.dup
-
+    
         if @entry.update(entry_params)
             adjust_user_finances_for_update(old_entry, @entry)  
             render json: { message: 'Entry updated successfully', entry: @entry }, status: :ok
@@ -38,8 +38,8 @@ class EntriesController < ApplicationController
     end
 
     def destroy
-        adjust_user_finances(@entry)
-
+        adjust_user_finances(@entry, undo: true)
+    
         if @entry.destroy
             render json: { message: 'Entry deleted successfully' }, status: :ok
         else
@@ -66,46 +66,60 @@ class EntriesController < ApplicationController
         params.permit(:date, :entry_type, :description, :amount)
     end
 
-    def update_user_finances(entry)
+
+    def adjust_user_finances(entry, undo: false)
+        factor = undo ? -1 : 1
+        
         case entry.entry_type
         when 'Income'
-            @user.cash += entry.amount
+          @user.cash += factor * entry.amount
         when 'Expense'
-            @user.cash -= entry.amount
+          @user.cash -= factor * entry.amount
         when 'Liability'
-            @user.liabilities += entry.amount
+          @user.liabilities += factor * entry.amount
         when 'Settlement'
-            @user.liabilities -= entry.amount
-            @user.cash -= entry.amount
+          @user.liabilities -= factor * entry.amount
+          @user.cash -= factor * entry.amount
         end
-
+    
         @user.cash = [@user.cash, 0].max
         @user.liabilities = [@user.liabilities, 0].max
-
-        @user.update_columns(cash: @user.cash, liabilities: @user.liabilities)
-    end
-
-    def adjust_user_finances(entry)
-        case entry.entry_type
-        when 'Income'
-            @user.cash -= entry.amount
-        when 'Expense'
-            @user.cash += entry.amount
-        when 'Liability'
-            @user.liabilities -= entry.amount
-        when 'Settlement'
-            @user.liabilities -= entry.amount
-            @user.cash -= entry.amount
-        end
-
-        @user.cash = [@user.cash, 0].max
-        @user.liabilities = [@user.liabilities, 0].max
-
         @user.update_columns(cash: @user.cash, liabilities: @user.liabilities)
     end
 
     def adjust_user_finances_for_update(old_entry, new_entry)
-        adjust_user_finances(old_entry)
-        update_user_finances(new_entry)
+        User.transaction do
+
+        case old_entry.entry_type
+            when 'Income'
+            @user.cash -= old_entry.amount
+        when 'Expense'
+            @user.cash += old_entry.amount  
+        when 'Liability'
+            @user.liabilities -= old_entry.amount
+        when 'Settlement'
+            @user.liabilities += old_entry.amount 
+            @user.cash += old_entry.amount
+        end
+
+        case new_entry.entry_type
+        when 'Income'
+            @user.cash += new_entry.amount
+        when 'Expense'
+            @user.cash -= new_entry.amount  
+        when 'Liability'
+            @user.liabilities += new_entry.amount
+        when 'Settlement'
+            @user.liabilities -= new_entry.amount 
+            @user.cash -= new_entry.amount
+        end
+
+
+        @user.cash = [@user.cash, 0].max
+        @user.liabilities = [@user.liabilities, 0].max
+
+        @user.update_columns(cash: @user.cash, liabilities: @user.liabilities)
+        end
     end
+    
 end

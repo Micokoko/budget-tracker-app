@@ -6,6 +6,7 @@ import LoginPage from './components/LoginPage';
 import SignUpPage from './components/SignUpPage';
 import UserPage from './components/UserPage';
 import AddEntryPage from './components/AddEntryPage';
+
 import { UserProvider } from './UserContext'; 
 
 const App = () => {
