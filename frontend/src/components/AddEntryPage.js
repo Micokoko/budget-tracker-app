@@ -232,10 +232,9 @@ function AddEntryPage() {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center bg-custom-shiba-secondary rounded-lg shadow-lg border-4 border-custom-shiba-tertiary">
-            <div className="w-full max-w-md p-8 space-y-8 bg-custom-shiba-secondary rounded-lg shadow-lg">
+        <div className="flex flex-col p-36 items-center justify-center bg-custom-shiba-secondary rounded-lg shadow-lg border-4 border-custom-shiba-tertiary">
                 <h1 className="text-2xl font-bold text-center">{id ? `Edit ${entryType} Entry` : 'Add Entry'}</h1>
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4 w-80">
                     <div>
                         <label className="block pl-2 text-xs font-semibold text-gray-700" htmlFor="date">Date</label>
                         <input
@@ -244,7 +243,7 @@ function AddEntryPage() {
                             value={date}
                             onChange={(e) => setDate(e.target.value)}
                             required
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-2xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
                         />
                     </div>
                     {!id && ( 
@@ -254,7 +253,7 @@ function AddEntryPage() {
                                 id="entryType"
                                 value={entryType}
                                 onChange={(e) => setEntryType(e.target.value)}
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-2xl  shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
                             >
                                 <option value="Income">Income</option>
                                 <option value="Expense">Expense</option>
@@ -271,7 +270,7 @@ function AddEntryPage() {
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                             required
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-2xl  shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
                         />
                     </div>
                     <div>
@@ -282,13 +281,13 @@ function AddEntryPage() {
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
                             required
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-2xl  shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
                         />
                     </div>
                     <button
                         type="submit"
                         disabled={isSubmitting} 
-                        className="w-full px-4 py-2 font-bold text-white bg-blue-600 rounded-3xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                        className="w-full px-4 py-2 font-bold text-white bg-blue-600 rounded-2xl  hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                     >
                         {id ? 'Update Entry' : 'Add Entry'}
                     </button>
@@ -297,12 +296,11 @@ function AddEntryPage() {
                 {id && (
                     <button
                         onClick={handleDeleteEntry}
-                        className="mt-4 w-full px-4  py-2 font-bold text-white bg-red-600 rounded-3xl hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                        className="mt-4 w-full px-4  py-2 font-bold text-white bg-red-600 rounded-2xl  hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
                     >
                         Delete Entry
                     </button>
                 )}
-            </div>
         </div>
     );
 }

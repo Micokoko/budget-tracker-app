@@ -11,6 +11,7 @@ function UserPage() {
     const [liabilities, setLiabilities] = useState(Number(localStorage.getItem('liabilities')) || 0);
     const userName = localStorage.getItem('username');
 
+
     const [date, setDate] = useState(query.get('date') || new Date().toISOString().split('T')[0]);
     const [error, setError] = useState('');
 
@@ -44,6 +45,7 @@ function UserPage() {
 
         fetchEntries();
     }, [userName, date]); 
+
 
     const handleLogout = () => {
         localStorage.removeItem('username');
@@ -99,28 +101,42 @@ function UserPage() {
                 {error && <p className="text-red-600 text-center mt-2">{error}</p>} 
             </div>
 
-            <div className="flex-1 overflow-y-auto">
+            <div className="flex-1 overflow-y-auto" style={{ maxHeight: '400px' }}>
                 <table className="table-auto w-full">
                     <thead>
                         <tr className="bg-custom-shiba-quinary">
-                            <th className="px-4 py-2">Description</th>
-                            <th className="px-4 py-2">Type</th>
-                            <th className="px-4 py-2">Income</th>
-                            <th className="px-4 py-2">Expense</th>
+                            <th className="px-4 py-2 font-semibold">Description</th>
+                            <th className="px-4 py-2 font-semibold">Income</th>
+                            <th className="px-4 py-2 font-semibold">Expense</th>
                         </tr>
                     </thead>
                     <tbody>
                         {entries.length > 0 ? (
-                            entries.map((entry, index) => (
+                            entries.map((entry) => (
                                 <tr
-                                    key={entry.id} 
-                                    className="border-b cursor-pointer hover:bg-gray-100"
+                                    key={entry.id}
+                                    className="border-b cursor-pointer hover:bg-yellow-100"
                                     onClick={() => handleEntryClick(entry)}
                                 >
-                                    <td className="px-4 py-2">{entry.description}</td>
-                                    <td className="px-4 py-2">{entry.entry_type}</td>
-                                    <td className="px-4 py-2">{entry.entry_type === 'Income' ? formatCurrency(entry.amount) : '-'}</td>
-                                    <td className="px-4 py-2">{entry.entry_type === 'Expense' || entry.entry_type === 'Liability' || entry.entry_type === 'Settlement' ? formatCurrency(entry.amount) : '-'}</td>
+                                    <td className="px-4 py-2">
+                                        <div className='font-semibold text-lg'>{entry.description}</div>
+                                        <div className='font-light text-s'>{entry.entry_type}</div>
+                                    </td>
+                                    <td className={`px-4 py-2 font-medium ${entry.entry_type === 'Income' ?  'text-blue-700': ''}`}>
+                                        {entry.entry_type === 'Income' ? formatCurrency(entry.amount):'-'} 
+                                    </td>
+                                    <td className={`px-4 py-2 font-medium ${
+                                            entry.entry_type === 'Expense' || entry.entry_type === 'Liability'
+                                            ? 'text-red-700'
+                                            : entry.entry_type === 'Settlement'
+                                            ? 'text-fuchsia-600'
+                                            : ''
+                                        }`}
+                                    >
+                                        {entry.entry_type === 'Expense' || entry.entry_type === 'Liability' || entry.entry_type === 'Settlement'
+                                            ? formatCurrency(entry.amount)
+                                            : '-'}
+                                    </td>
                                 </tr>
                             ))
                         ) : (
@@ -131,6 +147,7 @@ function UserPage() {
                     </tbody>
                 </table>
             </div>
+
 
             <div className="fixed-bottom p-4 bg-custom-shiba-quinary border-t border-gray-300">
                     <div className="flex justify-between justify-items-center space-x-4 px-8">
