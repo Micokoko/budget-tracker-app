@@ -56,7 +56,7 @@ function AddEntryPage() {
         };
     
         const url = `${API_URL}/entries?username=${username}`;
-        
+    
         try {
             const response = await fetch(url, {
                 method: 'POST',
@@ -83,7 +83,6 @@ function AddEntryPage() {
         }
     };
     
-
     const handleEditEntry = async (event) => {
         event.preventDefault();
         if (isSubmitting) return;
@@ -94,61 +93,69 @@ function AddEntryPage() {
             setIsSubmitting(false);
             return;
         }
-    
-        let currentCash = parseFloat(localStorage.getItem('cash')) || 0;
-        let currentLiability = parseFloat(localStorage.getItem('liabilities')) || 0;
-    
-        const payload = {
-            date,
-            entry_type: entryType,
-            description,
-            amount: parseFloat(amount),
-        };
-    
-        const url = `${API_URL}/entries/${id}?username=${username}`;
+
         try {
+            const existingEntry = await getEntryById(id, username);
+            const currentCash = parseFloat(localStorage.getItem('cash')) || 0;
+            const currentLiability = parseFloat(localStorage.getItem('liabilities')) || 0;
+    
+            const payload = {
+                date,
+                entry_type: entryType,
+                description,
+                amount: parseFloat(amount),
+            };
+    
+            const url = `${API_URL}/entries/${id}?username=${username}`;
             const response = await fetch(url, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
             });
     
             if (response.ok) {
-                const existingEntry = await getEntryById(id, username);
-                updateLocalStorage(currentCash, currentLiability, payload, existingEntry.amount);
+                updateLocalStorage(currentCash, currentLiability, payload, parseFloat(existingEntry.amount) || 0);
                 const updatedEntry = await response.json();
                 addEntry(updatedEntry);
                 navigate(`/dashboard?date=${date}`);
             } else {
                 setError('Failed to update entry');
-                console.error('Failed to update entry');
             }
         } catch (err) {
             setError('Failed to update entry due to a network error');
-            console.error('Network error:', err);
         } finally {
             setIsSubmitting(false);
         }
     };
     
-
-    const updateLocalStorage = (currentCash, currentLiability, payload, oldAmount) => {
-        if (payload.entry_type === 'Income') {
-            currentCash += (payload.amount - (oldAmount || 0)); 
-        } else if (payload.entry_type === 'Expense') {
-            currentCash -= (payload.amount - (oldAmount || 0));
-        } else if (payload.entry_type === 'Liability') {
-            currentLiability += (payload.amount - oldAmount);
-        } else if (payload.entry_type === 'Settlement') {
-            currentCash -= (payload.amount - oldAmount);
-            currentLiability -= (payload.amount - oldAmount);
+    const updateLocalStorage = (currentCash, currentLiability, payload, oldAmount = 0) => {
+        let updatedCash = currentCash;
+        let updatedLiability = currentLiability;
+        let payloadDifference = payload.amount - oldAmount
+        
+        switch (payload.entry_type) {
+            case 'Income':
+                updatedCash += payloadDifference;
+                break;
+            case 'Expense':
+                updatedCash -= payloadDifference;
+                break;
+            case 'Liability':
+                updatedLiability += payloadDifference;
+                break;
+            case 'Settlement':
+                updatedCash -= payloadDifference;
+                updatedLiability -= payloadDifference;
+                break;
+            default:
+                console.error('Unknown entry type:', payload.entry_type);
+                return;
         }
-
-        localStorage.setItem('cash', currentCash.toFixed(2));
-        localStorage.setItem('liabilities', currentLiability.toFixed(2));
+        
+        localStorage.setItem('cash', updatedCash.toFixed(2));
+        localStorage.setItem('liabilities', updatedLiability.toFixed(2));
     };
+    
 
     const handleDeleteEntry = async () => {
         if (id) {
@@ -176,17 +183,23 @@ function AddEntryPage() {
                 }
     
                 const entryType = existingEntry.entry_type;
-                if (entryType === 'Income') {
-                    currentCash -= amountToRemove; 
-                } else if (entryType === 'Expense') {
-                    currentCash += amountToRemove; 
-                } else if (entryType === 'Liability') {
-                    currentLiability -= amountToRemove
-                } else if (entryType === 'Settlement') {
-                    currentCash += amountToRemove; 
-                    currentLiability += amountToRemove
-                } else {
-                    console.error('Unknown entry type:', entryType);
+
+                switch (entryType){
+                    case 'Income':
+                        currentCash -= amountToRemove;
+                        break;
+                    case 'Expense':
+                        currentCash += amountToRemove;
+                        break
+                    case 'Liability':
+                        currentLiability -= amountToRemove;
+                        break
+                    case 'Settlement':
+                        currentCash += amountToRemove;
+                        currentLiability += amountToRemove;
+                    default:
+                        console.error('Unknown entry type:', entryType);
+                        return
                 }
     
                 if (typeof currentCash === 'number' || currentLiability === 'number') {
