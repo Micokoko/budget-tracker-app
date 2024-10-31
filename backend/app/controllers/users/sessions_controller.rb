@@ -5,12 +5,12 @@ class Users::SessionsController < ApplicationController
         user = User.find_for_database_authentication(email: params[:email])
 
         if user&.valid_password?(params[:password])
-        render json: {
-            message: 'Login successful',
-            user: user.as_json(only: [:id, :username, :email, :cash, :liabilities]) 
-        }, status: :ok
+            render json: {
+                message: 'Login successful',
+                user: user.as_json(only: [:id, :username, :email, :cash, :liabilities]) 
+            }, status: :ok
         else
-        render json: { errors: ['Invalid email or password'] }, status: :unauthorized
+            render json: { errors: ['Invalid email or password'] }, status: :unauthorized
         end
     end
 
