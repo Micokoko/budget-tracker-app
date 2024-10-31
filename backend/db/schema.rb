@@ -10,103 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_29_153829) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_31_063247) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "entries", force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.date "date"
     t.string "entry_type"
     t.string "description"
     t.decimal "amount"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_entries_on_user_id"
   end
 
-  create_table "user_ShibaInu_entries", force: :cascade do |t|
-    t.date "date"
-    t.string "entry_type"
-    t.string "description"
-    t.decimal "amount", precision: 10, scale: 2
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "user_akitainu_entries", force: :cascade do |t|
-    t.date "date"
-    t.string "entry_type"
-    t.string "description"
-    t.decimal "amount", precision: 10, scale: 2
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "user_doge_coin_entries", force: :cascade do |t|
-    t.date "date"
-    t.string "entry_type"
-    t.string "description"
-    t.decimal "amount", precision: 10, scale: 2
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "user_hachiko_entries", force: :cascade do |t|
-    t.date "date"
-    t.string "entry_type"
-    t.string "description"
-    t.decimal "amount", precision: 10, scale: 2
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "user_john_doe_entries", force: :cascade do |t|
-    t.date "date"
-    t.string "entry_type"
-    t.string "description"
-    t.decimal "amount", precision: 10, scale: 2
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "user_mico_196_entries", force: :cascade do |t|
-    t.date "date"
-    t.string "entry_type"
-    t.string "description"
-    t.decimal "amount", precision: 10, scale: 2
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "user_micokoko_entries", force: :cascade do |t|
-    t.date "date"
-    t.string "entry_type"
-    t.string "description"
-    t.decimal "amount", precision: 10, scale: 2
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "user_micokrazy_entries", force: :cascade do |t|
-    t.date "date"
-    t.string "entry_type"
-    t.string "description"
-    t.decimal "amount", precision: 10, scale: 2
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "user_poco_entries", force: :cascade do |t|
-    t.date "date"
-    t.string "entry_type"
-    t.string "description"
-    t.decimal "amount", precision: 10, scale: 2
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "user_potatosalad_entries", force: :cascade do |t|
+  create_table "user_shibainu_entries", force: :cascade do |t|
     t.date "date"
     t.string "entry_type"
     t.string "description"
@@ -116,25 +35,15 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_29_153829) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "username"
-    t.string "email"
-    t.string "password"
-    t.decimal "cash"
-    t.decimal "liabilities"
+    t.string "username", null: false
+    t.string "email", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.decimal "cash", default: "0.0"
+    t.decimal "liabilities", default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at", precision: nil
-    t.datetime "last_sign_in_at", precision: nil
-    t.string "current_sign_in_ip"
-    t.string "last_sign_in_ip"
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.string "password_digest"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   add_foreign_key "entries", "users"
