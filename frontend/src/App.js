@@ -13,7 +13,7 @@ const App = () => {
   return (
     <UserProvider>
       <Router>
-        <div className="flex min-h-screen bg-gray-100">
+        <div className="flex min-h-screen bg-custom-shiba-main">
           <div className="w-screen h-screen items-center justify-center flex flex-col border border-gray-300 rounded-lg shadow-md overflow-hidden">
             <Routes>
               <Route path="/" element={<LoginPage />} />

@@ -48,41 +48,47 @@ function LoginPage() {
     };
 
     return (
-        <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg border-4">
-            <h1 className="text-2xl font-bold text-center">BUDGET INU</h1>
+        <div className="w-full max-w-md p-8 space-y-8 bg-custom-shiba-secondary rounded-lg shadow-lg border-4 border-custom-shiba-tertiary">
+            <h1 className="text-7xl font-bold text-center font-logoFont">BUDGET INU</h1>
+            <div className="bg-custom-shiba-quinary py-8 -mx-8">
+                <img className="object-scale-down h-48 w-full" src='images/budget-inu-logo.png' alt="Budget Inu Logo" />
+            </div>
+
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700" htmlFor="email">Email</label>
+                    <label className="block pl-2 text-xs font-semibold text-gray-700" htmlFor="email">Email</label>
                     <input
                         type="email"
                         id="email"
                         value={email}
+                        placeholder="you@example.com"
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700" htmlFor="password">Password</label>
+                    <label className="block pl-2 text-xs font-semibold text-gray-700" htmlFor="password">Password</label>
                     <input
                         type="password"
                         id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+                        placeholder="••••••"
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
                     />
                 </div>
                 {error && <p className="text-red-600">{error}</p>}
                 <button
                     type="submit"
-                    className="w-full px-4 py-2 font-bold text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                    className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-3xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                 >
                     Login
                 </button>
             </form>
-            <div className="flex justify-between">
+            <div className="flex justify-center items-center">
                 <button
                     onClick={() => navigate('/signup')}
                     className="text-sm text-blue-600 hover:underline"
@@ -91,6 +97,7 @@ function LoginPage() {
                 </button>
             </div>
         </div>
+
     );
 }
 
