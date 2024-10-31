@@ -232,7 +232,7 @@ function AddEntryPage() {
     };
 
     return (
-        <div className="flex flex-col p-36 items-center justify-center bg-custom-shiba-secondary rounded-lg shadow-lg border-4 border-custom-shiba-tertiary">
+        <div className="flex flex-col px-6 py-8 sm:px-10 sm:py-12 items-center justify-center w-full max-w-md bg-custom-shiba-secondary rounded-lg shadow-lg border-4 border-custom-shiba-tertiary mx-auto min-h-screen sm:min-h-[80vh] md:min-h-[60vh]">
                 <h1 className="text-2xl font-bold text-center">{id ? `Edit ${entryType} Entry` : 'Add Entry'}</h1>
                 <form onSubmit={handleSubmit} className="space-y-4 w-80">
                     <div>
@@ -291,8 +291,7 @@ function AddEntryPage() {
                     >
                         {id ? 'Update Entry' : 'Add Entry'}
                     </button>
-                </form>
-                {error && <p className="text-red-500">{error}</p>}
+                    {error && <p className="text-red-500">{error}</p>}
                 {id && (
                     <button
                         onClick={handleDeleteEntry}
@@ -301,6 +300,7 @@ function AddEntryPage() {
                         Delete Entry
                     </button>
                 )}
+            </form>
         </div>
     );
 }

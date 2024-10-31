@@ -63,7 +63,7 @@ const SignUpPage = () => {
     };
     
     return (
-        <div className="w-full max-w-md p-8 space-y-8 bg-custom-shiba-secondary border-4 border-custom-shiba-tertiary rounded-lg shadow-lg">
+        <div className="flex flex-col px-6 py-8 sm:px-10 sm:py-12 items-center justify-center w-full max-w-md bg-custom-shiba-secondary rounded-lg shadow-lg border-4 border-custom-shiba-tertiary mx-auto min-h-screen sm:min-h-[80vh] md:min-h-[60vh]">
             <h2 className="text-lg font-bold mb-4">Register</h2>
             {error && (
                 <div className="text-red-500 mb-2">
@@ -73,7 +73,7 @@ const SignUpPage = () => {
                 </div>
             )}
             {successMessage && <div className="text-green-500 mb-2">{successMessage}</div>}
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="w-full">
                 <div className="mb-4">
                     <label className="block pl-2 text-xs font-semibold text-gray-700" htmlFor="username">Username</label>
                     <input
@@ -81,9 +81,9 @@ const SignUpPage = () => {
                         name="username"
                         id="username"
                         value={formData.username}
-                        placeholder='username'
+                        placeholder="username"
                         onChange={handleChange}
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+                        className="mt-1 block w-full border border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
                         required
                     />
                 </div>
@@ -94,9 +94,9 @@ const SignUpPage = () => {
                         name="email"
                         id="email"
                         value={formData.email}
-                        placeholder='email address'
+                        placeholder="email address"
                         onChange={handleChange}
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+                        className="mt-1 block w-full border border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
                         required
                     />
                 </div>
@@ -107,9 +107,9 @@ const SignUpPage = () => {
                         name="password"
                         id="password"
                         value={formData.password}
-                        placeholder='password'
+                        placeholder="password"
                         onChange={handleChange}
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+                        className="mt-1 block w-full border border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
                         required
                     />
                 </div>
@@ -121,8 +121,8 @@ const SignUpPage = () => {
                         id="passwordConfirmation"
                         value={formData.password_confirmation}
                         onChange={handleChange}
-                        placeholder='confirm password'
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+                        placeholder="confirm password"
+                        className="mt-1 block w-full border border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
                         required
                     />
                 </div>
@@ -132,6 +132,7 @@ const SignUpPage = () => {
                 <button type="submit" className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-3xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Register</button>
             </form>
         </div>
+
     );
 };
 

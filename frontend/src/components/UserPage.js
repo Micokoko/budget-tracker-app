@@ -67,8 +67,8 @@ function UserPage() {
     };
 
     return (
-        <div className="flex flex-col bg-custom-shiba-secondary rounded-lg shadow-lg border-4 border-custom-shiba-tertiary">
-            <div className="fixed-top p-4 bg-custom-shiba-quaternary border-gray-300">
+        <div className="flex flex-col w-full max-w-md bg-custom-shiba-secondary rounded-lg shadow-lg border-4 border-custom-shiba-tertiary mx-auto min-h-screen sm:min-h-[80vh] md:min-h-[60vh] lg:min-h-[50vh]">
+            <div className="p-4 bg-custom-shiba-quaternary border-gray-300">
                 <div className="flex justify-center mb-2">
                     <div className="bg-custom-shiba-quinary border-gray-300 rounded-lg shadow-md p-4 w-full">
                         {userName && <h2 className="text-xl font-bold">Hello, {userName}!</h2>}
@@ -87,7 +87,7 @@ function UserPage() {
                 <div className="flex justify-between mt-4">
                     <input
                         type="date"
-                        className="border rounded-3xl p-2 bg-custom-shiba-secondary"
+                        className="border rounded-3xl text-center p-2 bg-custom-shiba-secondary"
                         value={date} 
                         onChange={handleDateChange} 
                     />
@@ -100,8 +100,8 @@ function UserPage() {
                 </div>
                 {error && <p className="text-red-600 text-center mt-2">{error}</p>} 
             </div>
-
-            <div className="flex-1 overflow-y-auto" style={{ maxHeight: '400px' }}>
+    
+            <div className="flex-1 overflow-y-auto" style={{ minHeight:'400px', maxHeight: '600px'}}>
                 <table className="table-auto w-full">
                     <thead>
                         <tr className="bg-custom-shiba-quinary">
@@ -147,23 +147,23 @@ function UserPage() {
                     </tbody>
                 </table>
             </div>
-
-
-            <div className="fixed-bottom p-4 bg-custom-shiba-quinary border-t border-gray-300">
-                    <div className="flex justify-between justify-items-center space-x-4 px-8">
-                        <div className="text-center font-medium text-l">Income: 
-                            <div className='font-semibold text-blue-700'>{formatCurrency(totalIncome)}</div>
-                        </div>
-                        <div className="text-center  font-medium text-l">Expense:
-                            <div className='font-bold text-red-700'>{formatCurrency(totalExpense)}</div>
-                        </div>
-                        <div className="text-center  font-medium text-l">Total: 
-                            <div className='font-bold'>{formatCurrency(totaIncomeLessExpense)}</div>
-                        </div>
+    
+            <div className="p-4 bg-custom-shiba-quinary border-t border-gray-300 mt-auto">
+                <div className="flex justify-between justify-items-center space-x-4 px-8">
+                    <div className="text-center font-medium text-l">Income: 
+                        <div className='font-semibold text-blue-700'>{formatCurrency(totalIncome)}</div>
+                    </div>
+                    <div className="text-center font-medium text-l">Expense:
+                        <div className='font-bold text-red-700'>{formatCurrency(totalExpense)}</div>
+                    </div>
+                    <div className="text-center font-medium text-l">Total: 
+                        <div className='font-bold'>{formatCurrency(totaIncomeLessExpense)}</div>
+                    </div>
                 </div>
             </div>
         </div>
     );
+    
 }
 
 export default UserPage;

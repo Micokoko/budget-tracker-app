@@ -48,7 +48,7 @@ function LoginPage() {
     };
 
     return (
-        <div className="w-full max-w-md p-8 space-y-8 bg-custom-shiba-secondary rounded-lg shadow-lg border-4 border-custom-shiba-tertiary">
+        <div className="w-full max-w-md p-8 space-y-8 bg-custom-shiba-quaternary rounded-lg shadow-lg border-4 border-custom-shiba-tertiary min-h-screen sm:min-h-[80vh] md:min-h-[60vh] lg:min-h-[50vh] max-h-screen">
             <h1 className="text-7xl font-bold text-center font-logoFont">BUDGET INU</h1>
             <div className="bg-custom-shiba-quinary py-8 -mx-8">
                 <img className="object-scale-down h-48 w-full" src='images/budget-inu-logo.png' alt="Budget Inu Logo" />
@@ -57,7 +57,7 @@ function LoginPage() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label className="block pl-2 text-xs font-semibold text-gray-700" htmlFor="email">Email</label>
+                    <label className="block pl-2 text-xs font-semibold text-slate-950" htmlFor="email">Email</label>
                     <input
                         type="email"
                         id="email"
@@ -69,7 +69,7 @@ function LoginPage() {
                     />
                 </div>
                 <div>
-                    <label className="block pl-2 text-xs font-semibold text-gray-700" htmlFor="password">Password</label>
+                    <label className="block pl-2 text-xs font-semibold text-slate-950" htmlFor="password">Password</label>
                     <input
                         type="password"
                         id="password"
@@ -89,12 +89,16 @@ function LoginPage() {
                 </button>
             </form>
             <div className="flex justify-center items-center">
+            <p className="text-center text-slate-950">
+                No account yet?{" "}
                 <button
                     onClick={() => navigate('/signup')}
-                    className="text-sm text-blue-600 hover:underline"
+                    className="text-m font-extrabold text-blue-600 hover:underline"
                 >
-                    Sign Up
+                Sign Up
                 </button>
+            </p>
+
             </div>
         </div>
 
