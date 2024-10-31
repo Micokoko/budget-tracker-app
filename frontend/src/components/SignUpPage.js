@@ -63,7 +63,7 @@ const SignUpPage = () => {
     };
     
     return (
-        <div className="w-full max-w-md p-8 space-y-8 bg-custom-shiba-secondary rounded-lg shadow-lg border-4 border-custom-shiba-tertiary rounded-lg shadow-lg">
+        <div className="w-full max-w-md p-8 space-y-8 bg-custom-shiba-secondary border-4 border-custom-shiba-tertiary rounded-lg shadow-lg">
             <h2 className="text-lg font-bold mb-4">Register</h2>
             {error && (
                 <div className="text-red-500 mb-2">
