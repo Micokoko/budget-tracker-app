@@ -25,6 +25,42 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_29_153829) do
     t.index ["user_id"], name: "index_entries_on_user_id"
   end
 
+  create_table "user_ShibaInu_entries", force: :cascade do |t|
+    t.date "date"
+    t.string "entry_type"
+    t.string "description"
+    t.decimal "amount", precision: 10, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_akitainu_entries", force: :cascade do |t|
+    t.date "date"
+    t.string "entry_type"
+    t.string "description"
+    t.decimal "amount", precision: 10, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_doge_coin_entries", force: :cascade do |t|
+    t.date "date"
+    t.string "entry_type"
+    t.string "description"
+    t.decimal "amount", precision: 10, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_hachiko_entries", force: :cascade do |t|
+    t.date "date"
+    t.string "entry_type"
+    t.string "description"
+    t.decimal "amount", precision: 10, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "user_john_doe_entries", force: :cascade do |t|
     t.date "date"
     t.string "entry_type"
@@ -44,6 +80,15 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_29_153829) do
   end
 
   create_table "user_micokoko_entries", force: :cascade do |t|
+    t.date "date"
+    t.string "entry_type"
+    t.string "description"
+    t.decimal "amount", precision: 10, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_micokrazy_entries", force: :cascade do |t|
     t.date "date"
     t.string "entry_type"
     t.string "description"

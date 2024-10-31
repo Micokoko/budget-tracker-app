@@ -197,6 +197,7 @@ function AddEntryPage() {
                     case 'Settlement':
                         currentCash += amountToRemove;
                         currentLiability += amountToRemove;
+                        break
                     default:
                         console.error('Unknown entry type:', entryType);
                         return
@@ -233,7 +234,7 @@ function AddEntryPage() {
     return (
         <div className="w-full flex flex-col items-center justify-center">
             <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg">
-                <h1 className="text-2xl font-bold text-center">{id ? 'Edit Entry' : 'Add Entry'}</h1>
+                <h1 className="text-2xl font-bold text-center">{id ? `Edit ${entryType} Entry` : 'Add Entry'}</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-700" htmlFor="date">Date</label>

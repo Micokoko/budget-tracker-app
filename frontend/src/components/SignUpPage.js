@@ -25,9 +25,7 @@ const SignUpPage = () => {
         e.preventDefault();
         setError(null);
         setSuccessMessage(null);
-
-        console.log('Form Data:', formData);
-
+    
         try {
             const response = await signupUser({
                 user: {
@@ -50,18 +48,30 @@ const SignUpPage = () => {
             });
             navigate('/');
         } catch (error) {
-            if (error.response) {
-                setError(error.response.data.errors || 'Registration failed. Please try again.');
+            console.error('Error during signup:', error); 
+    
+
+            if (typeof error === 'string') {
+                setError(error); 
+            } else if (error && typeof error === 'object') {
+
+                setError(Object.values(error).flat().join(', ')); 
             } else {
-                setError('An error occurred. Please try again later.');
+                setError('Registration failed. Please try again.');
             }
         }
     };
-
+    
     return (
         <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg">
             <h2 className="text-lg font-bold mb-4">Register</h2>
-            {error && <div className="text-red-500 mb-2">{error}</div>}
+            {error && (
+                <div className="text-red-500 mb-2">
+                    {typeof error === 'string' ? error : Object.values(error).map((msg, index) => (
+                        <div key={index}>{msg}</div>
+                    ))}
+                </div>
+            )}
             {successMessage && <div className="text-green-500 mb-2">{successMessage}</div>}
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
