@@ -63,7 +63,7 @@ const SignUpPage = () => {
     };
     
     return (
-        <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg">
+        <div className="w-full max-w-md p-8 space-y-8 bg-custom-shiba-secondary rounded-lg shadow-lg border-4 border-custom-shiba-tertiary rounded-lg shadow-lg">
             <h2 className="text-lg font-bold mb-4">Register</h2>
             {error && (
                 <div className="text-red-500 mb-2">
@@ -75,57 +75,61 @@ const SignUpPage = () => {
             {successMessage && <div className="text-green-500 mb-2">{successMessage}</div>}
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1" htmlFor="username">Username</label>
+                    <label className="block pl-2 text-xs font-semibold text-gray-700" htmlFor="username">Username</label>
                     <input
                         type="text"
                         name="username"
                         id="username"
                         value={formData.username}
+                        placeholder='username'
                         onChange={handleChange}
-                        className="w-full p-2 border border-gray-300 rounded"
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
                         required
                     />
                 </div>
                 <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1" htmlFor="email">Email</label>
+                    <label className="block pl-2 text-xs font-semibold text-gray-700" htmlFor="email">Email</label>
                     <input
                         type="email"
                         name="email"
                         id="email"
                         value={formData.email}
+                        placeholder='email address'
                         onChange={handleChange}
-                        className="w-full p-2 border border-gray-300 rounded"
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
                         required
                     />
                 </div>
                 <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1" htmlFor="password">Password</label>
+                    <label className="block pl-2 text-xs font-semibold text-gray-700" htmlFor="password">Password</label>
                     <input
                         type="password"
                         name="password"
                         id="password"
                         value={formData.password}
+                        placeholder='password'
                         onChange={handleChange}
-                        className="w-full p-2 border border-gray-300 rounded"
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
                         required
                     />
                 </div>
                 <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1" htmlFor="passwordConfirmation">Confirm Password</label>
+                    <label className="block pl-2 text-xs font-semibold text-gray-700" htmlFor="passwordConfirmation">Confirm Password</label>
                     <input
                         type="password"
                         name="password_confirmation"
                         id="passwordConfirmation"
                         value={formData.password_confirmation}
                         onChange={handleChange}
-                        className="w-full p-2 border border-gray-300 rounded"
+                        placeholder='confirm password'
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
                         required
                     />
                 </div>
                 <input type="hidden" name="cash" value={formData.cash} />
                 <input type="hidden" name="liabilities" value={formData.liabilities} />
 
-                <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">Register</button>
+                <button type="submit" className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-3xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Register</button>
             </form>
         </div>
     );
