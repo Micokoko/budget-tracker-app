@@ -101,13 +101,14 @@ function UserPage() {
                 {error && <p className="text-red-600 text-center mt-2">{error}</p>} 
             </div>
     
-            <div className="flex-1 overflow-y-auto" style={{ minHeight:'400px', maxHeight: '600px'}}>
+            <div className="flex-1" style={{ minHeight:'400px', maxHeight: '600px'}}>
                 <table className="table-auto w-full">
                     <thead>
                         <tr className="bg-custom-shiba-quinary">
-                            <th className="px-4 py-2 font-semibold">Description</th>
-                            <th className="px-4 py-2 font-semibold">Income</th>
-                            <th className="px-4 py-2 font-semibold">Expense</th>
+                            <th className="py-2 font-semibold">Description</th>
+                            <th className="py-2 font-semibold">Category</th>
+                            <th className="py-2 font-semibold">Income</th>
+                            <th className="py-2 font-semibold">Expense</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -118,14 +119,17 @@ function UserPage() {
                                     className="border-b cursor-pointer hover:bg-yellow-100"
                                     onClick={() => handleEntryClick(entry)}
                                 >
-                                    <td className="px-4 py-2">
+                                    <td className="py-2">
                                         <div className='font-semibold text-lg'>{entry.description}</div>
                                         <div className='font-light text-s'>{entry.entry_type}</div>
                                     </td>
-                                    <td className={`px-4 py-2 font-medium ${entry.entry_type === 'Income' ?  'text-blue-700': ''}`}>
+                                    <td className="py-2">
+                                        <div className='font-light text-lg'>{entry.category}</div>
+                                    </td>
+                                    <td className={`py-2 font-medium ${entry.entry_type === 'Income' ?  'text-blue-700': ''}`}>
                                         {entry.entry_type === 'Income' ? formatCurrency(entry.amount):'-'} 
                                     </td>
-                                    <td className={`px-4 py-2 font-medium ${
+                                    <td className={`py-2 font-medium ${
                                             entry.entry_type === 'Expense' || entry.entry_type === 'Liability'
                                             ? 'text-red-700'
                                             : entry.entry_type === 'Settlement'

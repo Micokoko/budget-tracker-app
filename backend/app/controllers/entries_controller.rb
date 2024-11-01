@@ -63,7 +63,7 @@ class EntriesController < ApplicationController
     end
 
     def entry_params
-        params.permit(:date, :entry_type, :description, :amount)
+        params.permit(:date, :entry_type, :category, :description, :amount)
     end
 
 

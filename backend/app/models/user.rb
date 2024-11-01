@@ -19,6 +19,7 @@ class User < ApplicationRecord
       ActiveRecord::Migration.create_table(table_name) do |t|
         t.date :date
         t.string :entry_type
+        t.string :category
         t.string :description
         t.decimal :amount, precision: 10, scale: 2
         t.timestamps

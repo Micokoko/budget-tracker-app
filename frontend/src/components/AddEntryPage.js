@@ -12,6 +12,7 @@ function AddEntryPage() {
     const [id, setId] = useState(query.get('id') || '');
     const [date, setDate] = useState(query.get('date') || '');
     const [entryType, setEntryType] = useState('Income');
+    const [category, setCategory] = useState('');
     const [description, setDescription] = useState('');
     const [amount, setAmount] = useState('');
     const [error, setError] = useState('');
@@ -24,6 +25,7 @@ function AddEntryPage() {
                     const entry = await getEntryById(id, username); 
                     setDate(entry.date);
                     setEntryType(entry.entry_type); 
+                    setCategory(entry.category);
                     setDescription(entry.description);
                     setAmount(entry.amount);
                 } catch (err) {
@@ -51,6 +53,7 @@ function AddEntryPage() {
         const payload = {
             date,
             entry_type: entryType,
+            category,
             description,
             amount: parseFloat(amount),
         };
@@ -262,6 +265,17 @@ function AddEntryPage() {
                             </select>
                         </div>
                     )}
+                    <div>
+                        <label className="block pl-2 text-xs font-semibold text-gray-700" htmlFor="category">Category</label>
+                        <input
+                            type="text"
+                            id="category"
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                            required
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-2xl  shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+                        />
+                    </div>
                     <div>
                         <label className="block pl-2 text-xs font-semibold text-gray-700" htmlFor="description">Description</label>
                         <input
