@@ -27,6 +27,18 @@ function UserPage() {
         navigate(`/dashboard?date=${newDate}`); 
     };
 
+    const handleDateChangeArrows = (change) => {
+        const currentDate = new Date(date);
+
+        if(change === -1){
+            currentDate.setDate(currentDate.getDate() - 1);}
+        
+        if(change === 1){
+            currentDate.setDate(currentDate.getDate() + 1);}
+        setDate(currentDate.toISOString().split('T')[0]);
+    };
+
+
     const { totalIncome, totalExpense } = calculateTotals(entries);
     const totaIncomeLessExpense = totalIncome - totalExpense;
 
@@ -76,30 +88,47 @@ function UserPage() {
                             <p className="text-lg">Cash: {formatCurrency(cash)}</p>
                             <p className="text-lg">Liabilities: {formatCurrency(liabilities)}</p>
                         </div>
-                        <button
-                            onClick={handleLogout}
-                            className="px-4 py-2 mt-4 font-bold text-white bg-red-600 rounded-md hover:bg-red-700 w-1/8"
-                        >
-                            Log Out
-                        </button>
+                        <div className='flex justify-between'>
+                            <button
+                                onClick={handleLogout}
+                                className="px-4 py-2 mt-4 font-bold text-white bg-red-600 rounded-md hover:bg-red-700 w-1/8"
+                            >
+                                Log Out
+                            </button>
+                            <button
+                                onClick={handleEntryAddition}
+                                className="px-4 py-2 mt-4 font-bold text-2xl text-white bg-blue-600 rounded-full w-12 h-12 hover:bg-blue-700 flex items-center justify-center"
+                                >
+                                    +
+                            </button>
+                        </div>
                     </div>
                 </div>
-                <div className="flex justify-between mt-4">
-                    <input
-                        type="date"
-                        className="border rounded-3xl text-center p-2 bg-custom-shiba-secondary"
-                        value={date} 
-                        onChange={handleDateChange} 
-                    />
+                <div className="flex justify-between mt-4 bg-custom-shiba-secondary rounded-2xl">
                     <button
-                        onClick={handleEntryAddition}
-                        className="ml-2 px-4 py-2 font-bold text-white bg-blue-600 rounded-md hover:bg-blue-700"
-                    >
-                        + Add Entry
+                        onClick={() => handleDateChangeArrows(-1)} 
+                        >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
+                        <path fillRule="evenodd" d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z" clipRule="evenodd" />
+                        </svg>
+                    </button>
+                        <input
+                            type="date"
+                            className="text-center border-0  bg-transparent p-2"
+                            value={date} 
+                            onChange={handleDateChange} 
+                        />
+                    <button
+                        onClick={() => handleDateChangeArrows(1)} 
+                        >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
+                        <path fillRule="evenodd" d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z" clipRule="evenodd" />
+                        </svg>
                     </button>
                 </div>
-                {error && <p className="text-red-600 text-center mt-2">{error}</p>} 
-            </div>
+
+                    {error && <p className="text-red-600 text-center mt-2">{error}</p>} 
+                </div>
     
             <div className="flex-1 overflow-y-auto" style={{ minHeight: '400px', maxHeight: '600px' }}>
                 <table className="table-fixed w-full">
@@ -153,8 +182,9 @@ function UserPage() {
                 </table>
             </div>
 
+
     
-            <div className="p-4 bg-custom-shiba-quinary border-t border-gray-300 mt-auto">
+            <div className="p-3 bg-fixed-bottom bg-custom-shiba-quinary border-t border-gray-300 mt-auto">
                 <div className="flex justify-between justify-items-center space-x-4 px-8">
                     <div className="text-center font-medium text-l">Income: 
                         <div className='font-semibold text-blue-700'>{formatCurrency(totalIncome)}</div>

@@ -20,9 +20,9 @@ function AddEntryPage() {
 
     const categories = {
         Income: ['Salary', 'Allowance', 'Bonus', 'Others'],
-        Expense: ['Food', 'Social Life', 'Pets', 'Transporation', 'Shopping', 'Utilities', 'Lifestyle'],
-        Liability: ['Loan', 'Mortgage', 'Credit Card', 'Borrowed Money'],
-        Settlement: ['Loan Payment', 'Credit Card Payment', 'Agreement']
+        Expense: ['Food', 'Social Life', 'Pets', 'Transporation', 'Shopping', 'Utilities', 'Lifestyle', 'Others'],
+        Liability: ['Loan', 'Mortgage', 'Credit Card', 'Borrowed Money', 'Others'],
+        Settlement: ['Loan Payment', 'Credit Card Payment', 'Agreement', 'Others']
     };
 
     useEffect(() => {
