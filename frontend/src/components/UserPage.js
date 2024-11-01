@@ -101,12 +101,12 @@ function UserPage() {
                 {error && <p className="text-red-600 text-center mt-2">{error}</p>} 
             </div>
     
-            <div className="flex-1" style={{ minHeight:'400px', maxHeight: '600px'}}>
-                <table className="table-auto w-full">
+            <div className="flex-1 overflow-y-auto" style={{ minHeight: '400px', maxHeight: '600px' }}>
+                <table className="table-fixed w-full">
                     <thead>
                         <tr className="bg-custom-shiba-quinary">
-                            <th className="py-2 font-semibold">Description</th>
                             <th className="py-2 font-semibold">Category</th>
+                            <th className="py-2 font-semibold w-36">Description</th>
                             <th className="py-2 font-semibold">Income</th>
                             <th className="py-2 font-semibold">Expense</th>
                         </tr>
@@ -120,23 +120,24 @@ function UserPage() {
                                     onClick={() => handleEntryClick(entry)}
                                 >
                                     <td className="py-2">
-                                        <div className='font-semibold text-lg'>{entry.description}</div>
-                                        <div className='font-light text-s'>{entry.entry_type}</div>
+                                        <div className='font-semibold text-center text-sm'>{entry.category}</div>
                                     </td>
-                                    <td className="py-2">
-                                        <div className='font-light text-lg'>{entry.category}</div>
+                                    <td className="py-2 break-words whitespace-normal">
+                                        <div className='font-semibold text-sm'>{entry.description}</div>
+                                        <div className='font-light text-xs'>{entry.entry_type}</div>
                                     </td>
-                                    <td className={`py-2 font-medium ${entry.entry_type === 'Income' ?  'text-blue-700': ''}`}>
-                                        {entry.entry_type === 'Income' ? formatCurrency(entry.amount):'-'} 
+
+
+                                    <td className={`py-2 font-medium text-center text-sm ${entry.entry_type === 'Income' ?  'text-blue-700' : ''}`}>
+                                        {entry.entry_type === 'Income' ? formatCurrency(entry.amount) : '-'} 
                                     </td>
-                                    <td className={`py-2 font-medium ${
-                                            entry.entry_type === 'Expense' || entry.entry_type === 'Liability'
+                                    <td className={`py-2 font-medium break-words text-sm text-center ${
+                                        entry.entry_type === 'Expense' || entry.entry_type === 'Liability'
                                             ? 'text-red-700'
                                             : entry.entry_type === 'Settlement'
                                             ? 'text-fuchsia-600'
                                             : ''
-                                        }`}
-                                    >
+                                    }`}>
                                         {entry.entry_type === 'Expense' || entry.entry_type === 'Liability' || entry.entry_type === 'Settlement'
                                             ? formatCurrency(entry.amount)
                                             : '-'}
@@ -151,6 +152,7 @@ function UserPage() {
                     </tbody>
                 </table>
             </div>
+
     
             <div className="p-4 bg-custom-shiba-quinary border-t border-gray-300 mt-auto">
                 <div className="flex justify-between justify-items-center space-x-4 px-8">

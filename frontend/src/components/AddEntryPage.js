@@ -18,6 +18,13 @@ function AddEntryPage() {
     const [error, setError] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false); 
 
+    const categories = {
+        Income: ['Salary', 'Allowance', 'Bonus', 'Others'],
+        Expense: ['Food', 'Social Life', 'Pets', 'Transporation', 'Shopping', 'Utilities', 'Lifestyle'],
+        Liability: ['Loan', 'Mortgage', 'Credit Card', 'Borrowed Money'],
+        Settlement: ['Loan Payment', 'Credit Card Payment', 'Agreement']
+    };
+
     useEffect(() => {
         const fetchEntry = async () => {
             if (id) {
@@ -105,6 +112,7 @@ function AddEntryPage() {
             const payload = {
                 date,
                 entry_type: entryType,
+                category,
                 description,
                 amount: parseFloat(amount),
             };
@@ -159,7 +167,6 @@ function AddEntryPage() {
         localStorage.setItem('liabilities', updatedLiability.toFixed(2));
     };
     
-
     const handleDeleteEntry = async () => {
         if (id) {
             if (!username) {
@@ -193,14 +200,14 @@ function AddEntryPage() {
                         break;
                     case 'Expense':
                         currentCash += amountToRemove;
-                        break
+                        break;
                     case 'Liability':
                         currentLiability -= amountToRemove;
-                        break
+                        break;
                     case 'Settlement':
                         currentCash += amountToRemove;
                         currentLiability += amountToRemove;
-                        break
+                        break;
                     default:
                         console.error('Unknown entry type:', entryType);
                         return
@@ -222,10 +229,6 @@ function AddEntryPage() {
         }
     };
     
-    
-    
-    
-
     const handleSubmit = (event) => {
         if (id) {
             handleEditEntry(event);
@@ -236,80 +239,88 @@ function AddEntryPage() {
 
     return (
         <div className="flex flex-col px-6 py-8 sm:px-10 sm:py-12 items-center justify-center w-full max-w-md bg-custom-shiba-secondary rounded-lg shadow-lg border-4 border-custom-shiba-tertiary mx-auto min-h-screen sm:min-h-[80vh] md:min-h-[60vh]">
-                <h1 className="text-2xl font-bold text-center">{id ? `Edit ${entryType} Entry` : 'Add Entry'}</h1>
-                <form onSubmit={handleSubmit} className="space-y-4 w-80">
+            <h1 className="text-2xl font-bold text-center">{id ? `Edit ${entryType} Entry` : 'Add Entry'}</h1>
+            <form onSubmit={handleSubmit} className="space-y-4 w-80">
+                <div>
+                    <label className="block pl-2 text-xs font-semibold text-gray-700" htmlFor="date">Date</label>
+                    <input
+                        type="date"
+                        id="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                        required
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-2xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+                    />
+                </div>
+                {!id && ( 
                     <div>
-                        <label className="block pl-2 text-xs font-semibold text-gray-700" htmlFor="date">Date</label>
-                        <input
-                            type="date"
-                            id="date"
-                            value={date}
-                            onChange={(e) => setDate(e.target.value)}
-                            required
+                        <label className="block pl-2 text-xs font-semibold text-gray-700" htmlFor="entryType">Entry Type</label>
+                        <select
+                            id="entryType"
+                            value={entryType}
+                            onChange={(e) => {
+                                setEntryType(e.target.value);
+                                setCategory('');
+                            }}
                             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-2xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
-                        />
+                        >
+                            <option value="Income">Income</option>
+                            <option value="Expense">Expense</option>
+                            <option value="Liability">Liability</option>
+                            <option value="Settlement">Settlement</option>
+                        </select>
                     </div>
-                    {!id && ( 
-                        <div>
-                            <label className="block pl-2 text-xs font-semibold text-gray-700" htmlFor="entryType">Entry Type</label>
-                            <select
-                                id="entryType"
-                                value={entryType}
-                                onChange={(e) => setEntryType(e.target.value)}
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-2xl  shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
-                            >
-                                <option value="Income">Income</option>
-                                <option value="Expense">Expense</option>
-                                <option value="Liability">Liabilities</option>
-                                <option value="Settlement">Settlement</option>
-                            </select>
-                        </div>
-                    )}
-                    <div>
-                        <label className="block pl-2 text-xs font-semibold text-gray-700" htmlFor="category">Category</label>
-                        <input
-                            type="text"
-                            id="category"
-                            value={category}
-                            onChange={(e) => setCategory(e.target.value)}
-                            required
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-2xl  shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
-                        />
-                    </div>
-                    <div>
-                        <label className="block pl-2 text-xs font-semibold text-gray-700" htmlFor="description">Description</label>
-                        <input
-                            type="text"
-                            id="description"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            required
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-2xl  shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
-                        />
-                    </div>
-                    <div>
-                        <label className="block pl-2 text-xs font-semibold text-gray-700" htmlFor="amount">Amount</label>
-                        <input
-                            type="number"
-                            id="amount"
-                            value={amount}
-                            onChange={(e) => setAmount(e.target.value)}
-                            required
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-2xl  shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
-                        />
-                    </div>
-                    <button
-                        type="submit"
-                        disabled={isSubmitting} 
-                        className="w-full px-4 py-2 font-bold text-white bg-blue-600 rounded-2xl  hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                )}
+                <div>
+                    <label className="block pl-2 text-xs font-semibold text-gray-700" htmlFor="category">Category</label>
+                    <select
+                        id="category"
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                        required
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-2xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
                     >
-                        {id ? 'Update Entry' : 'Add Entry'}
-                    </button>
-                    {error && <p className="text-red-500">{error}</p>}
+                        <option value="">Select a category</option>
+                        {categories[entryType]?.map((cat) => (
+                            <option key={cat} value={cat}>
+                                {cat}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div>
+                    <label className="block pl-2 text-xs font-semibold text-gray-700" htmlFor="description">Description</label>
+                    <textarea
+                        id="description"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        required
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-2xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+                    />
+                </div>
+                <div>
+                    <label className="block pl-2 text-xs font-semibold text-gray-700" htmlFor="amount">Amount</label>
+                    <input
+                        type="number"
+                        id="amount"
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)}
+                        required
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-2xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+                    />
+                </div>
+                {error && <p className="text-red-500 text-xs">{error}</p>}
+                <button
+                    type="submit"
+                    className="w-full py-2 px-4 bg-blue-600 text-white rounded-2xl hover:bg-blue-700"
+                >
+                    {id ? 'Update Entry' : 'Add Entry'}
+                </button>
                 {id && (
                     <button
+                        type="button"
                         onClick={handleDeleteEntry}
-                        className="mt-4 w-full px-4  py-2 font-bold text-white bg-red-600 rounded-2xl  hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                        className="w-full py-2 px-4 bg-red-600 text-white rounded-2xl hover:bg-red-700"
                     >
                         Delete Entry
                     </button>
