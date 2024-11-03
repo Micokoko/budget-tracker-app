@@ -32,5 +32,5 @@ production:
   database: budget_inu_db
   username: budget_inu_db_user
   password: 3So63rMb3ssImMRJZRRX9FsmU5WWYE0L
-  host: dpg-csjgombtq21c73dcsicg-a.singapore-postgres.render.com # Use the external hostname
+  host: dpg-csjgombtq21c73dcsicg-a.singapore-postgres.render.com
   port: 5432
