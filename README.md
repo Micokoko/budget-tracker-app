@@ -1,58 +1,96 @@
-# budget-tracker-app [(Budget Inu)](https://budgetinu.vercel.app/)
+# Budget Tracker App [(Budget Inu)](https://budgetinu.vercel.app/)
 
-## OVERVIEW
+## Overview
 
-Budget Inu is your every budget tracker app that helps you manage your daily monthly expenses. This application has a Shiba Inu inspired color theme. It is also optimized for mobile use. This project was built using React for its frontend and Ruby on Rails for its backend (API only).
+Budget Inu is your go-to budget tracker app that helps you manage your daily and monthly expenses. This application features a Shiba Inu-inspired color theme and is optimized for mobile use. It was built using React for the frontend and Ruby on Rails for the backend (API only).
 
 ## Deployment
 
-This project is currently deployed in Vercel for frontend and Render for backend(API).
+This project is currently deployed on Vercel for the frontend and Render for the backend (API).
 
+- [Budget Inu](https://budgetinu.vercel.app/)
+- [API](https://budget-tracker-budget-inu-api.onrender.com)
 
-[Budget Inu](https://budgetinu.vercel.app/)
+## Features
 
-[API](https://budget-tracker-budget-inu-api.onrender.com)
+Budget Inu includes a range of features to assist users in tracking their expenses:
 
+- **Authentication**: Includes Sign Up and Login functionality.
+- **User Dashboard**: Each user has their own dashboard that displays:
+  - Total cash and liabilities.
+  - An "Add Entry" button to add new entries.
+  - A date bar displaying current entries for the month, with arrows to navigate between months.
+  - An entries table listing all entries created by the user, sorted by date.
+  - The ability to edit or delete each entry by clicking on it.
+  - A total income and expense bar that sums up the total income/expenses for the month.
+  
+- **Add Entry**: 
+  - Four entry types are available: Income, Expense, Liability, and Settlement.
+  - Each entry type affects cash and liabilities displayed on the dashboard, either positively or negatively.
+  - Entry types have categories that display based on the selected category.
 
-## FEATURES
-
-Budget Inu has a range of features that can assist the user in keeping track of their expenses:
--Authentication: Includes Sign Up and Login functionality.
-- Each user has their own dashboard. The Dashboard displays the following below:
-     - Displays total cash and liabilities.
-     - An "Add Entry" button allows users to add new entries.
-     - a date bar displaying the current entries made for that month. The arrows on the bar can change the month which also changes the entries being displayed.
-     - Entries table wherein all the entried created by the user is displayed. This is sorted by date.
-     - By clicking on each entry. The user is able to edit/delete them.
-     - Total income and expense bar wherein it sums up the total income/expenses made for that month.
-- Add Entry
-     - There are 4 entry types available which are, Income, Expense, Liability and Settlement.
-     - Each entry type will either have a positive or negative effect on Cash and Liabiliies displayed on the dashboard.
-     - Entry types has their own categories which only display depending on the category you have selected. 
-
-
-## GET STARTED 
+## Get Started
 
 ### Pre-requisites
 
- - React version: 18.3.1
+For deployment in a local environment, ensure you have the following installed:
 
-### In the project directory, proceed to this route below:
+- Ruby on Rails version: 7.2.1
+- Ruby: 3.2.0
+- React version: 18.3.1
+- PostgreSQL
 
+### Clone the Repository:
+
+```
+git clone https://github.com/Micokoko/budget-tracker-app.git
+```
+
+## Setup Backend (API) First
+
+### Navigate to the Project Directory:
+
+```
+cd backend
+```
+
+Navigate to the project directory and run `bundle install` to install all necessary dependencies
+
+create a .env file first for your Postgres credentials.
+
+
+```
+DATABASE_USERNAME=[your username]
+DATABASE_PASSWORD=[password]
+```
+
+Start the API server by running `rails server` The API will be available at http://localhost:3000.
+
+
+## Setup Frontend
+
+
+### In the root directory, proceed to this route below:
 
 ```
 cd frontend
 ```
 
 
-### Once in the correct directory run:
+### Once in the correct directory proceed to `src/services/api.js` and change the API_URL as seen below to connect to the local API setup by your local enviroment.
+
+```
+export const API_URL = 'http://127.0.0.1:3000';
+
+```
+
+Run this command below to start the web app.
 
 ```
 npm start
 ```
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Open [http://localhost:3001](http://localhost:3001) to view it in your browser.
 
 The page will reload when you make changes.
-
