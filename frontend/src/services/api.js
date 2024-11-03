@@ -28,7 +28,7 @@ export const signupUser = async (userData) => {
 };
 
 export const fetchEntriesByUsername = async (username, date) => {
-    const response = await fetch(`http://localhost:3000/entries?username=${username}&date=${date}`);
+    const response = await fetch(`${API_URL}/entries?username=${username}&date=${date}`);
     if (!response.ok) {
         throw new Error(`Error fetching entries: ${response.status}`);
     }
@@ -36,7 +36,7 @@ export const fetchEntriesByUsername = async (username, date) => {
 };
 
 export const getEntryById = async (id, username) => {
-    const response = await fetch(`http://localhost:3000/entries/${id}?username=${username}`);
+    const response = await fetch(`${API_URL}/entries/${id}?username=${username}`);
     
     if (!response.ok) {
         throw new Error('Failed to fetch entry');
