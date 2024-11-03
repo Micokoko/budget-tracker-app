@@ -149,7 +149,7 @@ function UserPage() {
                                     onClick={() => handleEntryClick(entry)}
                                 >
                                     <td className="py-2">
-                                        <div className='font-semibold text-center text-sm'>{entry.category}</div>
+                                        <div className='pl-2 font-semibold text-center text-sm break-words whitespace-normal'>{entry.category}</div>
                                     </td>
                                     <td className="py-2 break-words whitespace-normal">
                                         <div className='font-semibold text-sm'>{entry.description}</div>

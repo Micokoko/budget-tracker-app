@@ -19,7 +19,7 @@ function AddEntryPage() {
     const [isSubmitting, setIsSubmitting] = useState(false); 
 
     const categories = {
-        Income: ['Salary', 'Allowance', 'Bonus', 'Others'],
+        Income: ['Salary', 'Allowance', 'Bonus', 'Investment Earnings', 'Others'],
         Expense: ['Food', 'Social Life', 'Pets', 'Transporation', 'Shopping', 'Utilities', 'Lifestyle', 'Others'],
         Liability: ['Loan', 'Mortgage', 'Credit Card', 'Borrowed Money', 'Others'],
         Settlement: ['Loan Payment', 'Credit Card Payment', 'Agreement', 'Others']
