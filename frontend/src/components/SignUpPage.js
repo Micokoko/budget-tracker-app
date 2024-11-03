@@ -63,8 +63,7 @@ const SignUpPage = () => {
     };
     
     return (
-        <div className="flex flex-col px-6 py-8 sm:px-10 sm:py-12 items-center justify-center w-full max-w-md bg-custom-shiba-secondary rounded-lg shadow-lg border-4 border-custom-shiba-tertiary mx-auto min-h-screen sm:min-h-[80vh] md:min-h-[60vh]">
-            <h2 className="text-lg font-bold mb-4">Register</h2>
+        <div className="w-full max-w-md p-8 space-y-8 bg-custom-shiba-secondary rounded-lg shadow-lg border-4 border-custom-shiba-tertiary">
             {error && (
                 <div className="text-red-500 mb-2">
                     {typeof error === 'string' ? error : Object.values(error).map((msg, index) => (
