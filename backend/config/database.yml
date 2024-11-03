@@ -10,8 +10,6 @@ default: &default
   pool: 5
   username: <%= ENV['DATABASE_USERNAME'] %> # Change this if you want to use a static username
   password: <%= ENV['DATABASE_PASSWORD'] %> # Change this if you want to use a static password
-  host: <%= ENV['PROD_DATABASE_HOST'] %>
-  port: 5432
 
 development:
   <<: *default
@@ -27,5 +25,6 @@ production:
   <<: *default
   database: budget_inu_db
   username: <%= ENV['PROD_DATABASE_USERNAME'] %>
-  password: <%= ENV['PROD_DATABASE_PASSWORD'] %> 
+  password: <%= ENV['PROD_DATABASE_PASSWORD'] %>
+  host: <%= ENV['PROD_DATABASE_HOST'] %>
   port: 5432
