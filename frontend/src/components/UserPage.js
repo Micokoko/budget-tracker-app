@@ -77,10 +77,20 @@ function UserPage() {
 
     const formatCurrency = (amount) => {
         return `₱${Number(amount).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    };  
+
+    const formattedDay = (dateString) => {
+        const date = new Date(dateString);
+        const options = { weekday: 'short' };
+        const dayOfWeek = date.toLocaleDateString('en-US', options);
+        const dayNumber = parseInt(dateString.split('-')[2], 10);
+        return `${dayOfWeek}, ${dayNumber}`; 
     };
+    
+    
 
     return (
-        <div className="flex flex-col w-full max-w-md bg-custom-shiba-secondary rounded-lg shadow-lg border-4 overflow-y-scroll border-custom-shiba-tertiary mx-auto min-h-screen sm:min-h-[80vh] md:min-h-[60vh] lg:min-h-[50vh]">
+        <div className="flex flex-col w-full max-w-md bg-custom-shiba-secondary rounded-lg shadow-lg border-4 overflow-y-auto border-custom-shiba-tertiary mx-auto min-h-screen sm:min-h-[80vh] md:min-h-[60vh] lg:min-h-[50vh]">
             <div className="p-4 bg-custom-shiba-quaternary border-gray-300">
                 <div className="flex justify-center mb-4"> 
                     <div className="bg-custom-shiba-quinary border-gray-300 rounded-lg shadow-md p-4 w-full">
@@ -131,7 +141,6 @@ function UserPage() {
                 <table className="table-fixed w-full">
                     <thead>
                         <tr className="bg-custom-shiba-quinary">
-                            <th className="py-2 font-semibold w-10">Day</th>
                             <th className="py-2 font-semibold">Category</th>
                             <th className="py-2 font-semibold w-36">Description</th>
                             <th className="py-2 font-semibold">Income</th>
@@ -140,51 +149,63 @@ function UserPage() {
                     </thead>
                     <tbody>
                         {entries.length > 0 ? (
-                            entries
-                                .slice()
-                                .sort((a, b) => new Date(a.date) - new Date(b.date))
-                                .map((entry) => (
-                                    <tr
-                                        key={entry.id}
-                                        className="border-b cursor-pointer hover:bg-yellow-100"
-                                        onClick={() => handleEntryClick(entry)}
-                                    >
-                                        <td className="py-2 w-10">
-                                            <div className='pl-2 font-semibold text-center text-sm break-words whitespace-normal'>
-                                                {entry.date.split('-')[2]}
-                                            </div>
-                                        </td>
-                                        <td className="py-2">
-                                            <div className='pl-2 font-semibold text-left text-sm break-words whitespace-normal'>{entry.category}</div>
-                                        </td>
-                                        <td className="py-2 break-words whitespace-normal">
-                                            <div className='font-semibold text-sm'>{entry.description}</div>
-                                            <div className='font-light text-xs'>{entry.entry_type}</div>
-                                        </td>
-                                        <td className={`py-2 font-medium text-center text-sm ${entry.entry_type === 'Income' ? 'text-blue-700' : ''}`}>
-                                            {entry.entry_type === 'Income' ? formatCurrency(entry.amount) : '-'}
-                                        </td>
-                                        <td className={`py-2 font-medium break-words text-sm text-center ${
-                                            entry.entry_type === 'Expense' || entry.entry_type === 'Liability'
-                                                ? 'text-red-700'
-                                                : entry.entry_type === 'Settlement'
-                                                    ? 'text-fuchsia-600'
-                                                    : ''
-                                        }`}>
-                                            {entry.entry_type === 'Expense' || entry.entry_type === 'Liability' || entry.entry_type === 'Settlement'
-                                                ? formatCurrency(entry.amount)
-                                                : '-'}
-                                        </td>
-                                    </tr>
+                            Object.entries(entries.sort((a, b) => new Date(a.date) - new Date(b.date)).reduce((acc, entry) => {
+                                    const dateKey = entry.date.split('-').join('-');
+                                    if (!acc[dateKey]) {
+                                        acc[dateKey] = [];
+                                    }
+                                    acc[dateKey].push(entry);
+                                    return acc;
+                                }, {}))
+                                .map(([date, entriesForDate]) => (
+                                    <React.Fragment key={date}>
+                                        <tr className="bg-custom-shiba-main border-1 border-gray-600">
+                                            <td colSpan="4" className="py-2">
+                                                <div className='pl-2 font-semibold text-center text-sm break-words whitespace-normal'>
+                                                    {formattedDay(date)}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {entriesForDate.map((entry) => (
+                                            <tr
+                                                key={entry.id}
+                                                className="border-b cursor-pointer hover:bg-yellow-100"
+                                                onClick={() => handleEntryClick(entry)}
+                                            >
+                                                <td className="py-2">
+                                                    <div className='pl-2 font-semibold text-left text-sm break-words whitespace-normal'>{entry.category}</div>
+                                                </td>
+                                                <td className="py-2 break-words whitespace-normal">
+                                                    <div className='font-semibold text-sm'>{entry.description}</div>
+                                                    <div className='font-light text-xs'>{entry.entry_type}</div>
+                                                </td>
+                                                <td className={`py-2 font-medium text-center text-sm ${entry.entry_type === 'Income' ? 'text-blue-700' : ''}`}>
+                                                    {entry.entry_type === 'Income' ? formatCurrency(entry.amount) : '-'}
+                                                </td>
+                                                <td className={`py-2 font-medium break-words text-sm text-center ${
+                                                    entry.entry_type === 'Expense' || entry.entry_type === 'Liability'
+                                                        ? 'text-red-700'
+                                                        : entry.entry_type === 'Settlement'
+                                                            ? 'text-fuchsia-600'
+                                                            : ''
+                                                }`}>
+                                                    {entry.entry_type === 'Expense' || entry.entry_type === 'Liability' || entry.entry_type === 'Settlement'
+                                                        ? formatCurrency(entry.amount)
+                                                        : '-'}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </React.Fragment>
                                 ))
                         ) : (
                             <tr>
-                                <td colSpan="5" className="text-center px-4 py-2">No entries found.</td>
+                                <td colSpan="4" className="text-center px-4 py-2">No entries found.</td>
                             </tr>
                         )}
                     </tbody>
                 </table>
             </div>
+
 
 
             <div className="p-3 bg-custom-shiba-quinary border-t border-gray-300 mt-auto">
