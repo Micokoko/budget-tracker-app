@@ -10,7 +10,8 @@ default: &default
   pool: 5
   username: <%= ENV['DATABASE_USERNAME'] %> # Change this if you want to use a static username
   password: <%= ENV['DATABASE_PASSWORD'] %> # Change this if you want to use a static password
-  host: localhost
+  host: dpg-csjgombtq21c73dcsicg-a 
+  port: 5432
 
 development:
   <<: *default
@@ -25,5 +26,11 @@ test:
   database: budget_tracker_app_test
 
 production:
-  <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  database: budget_inu_db
+  username: budget_inu_db_user
+  password: 3So63rMb3ssImMRJZRRX9FsmU5WWYE0L
+  host: dpg-csjgombtq21c73dcsicg-a.singapore-postgres.render.com # Use the external hostname
+  port: 5432
