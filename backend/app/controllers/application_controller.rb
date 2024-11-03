@@ -1,5 +1,9 @@
 class ApplicationController < ActionController::Base
     before_action :configure_permitted_parameters, if: :devise_controller?
+
+    def home
+      render json: { message: "Welcome to the API" }
+    end
   
     protected
   

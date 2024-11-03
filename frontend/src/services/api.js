@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const API_URL = 'http://127.0.0.1:3000';
+export const API_URL = 'https://budget-tracker-budget-inu-api.onrender.com';
 
 const apiClient = axios.create({
     baseURL: API_URL,

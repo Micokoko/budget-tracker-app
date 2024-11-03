@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'users/registrations', sessions: 'users/sessions' }
 
+  root to: "application#home"
 
   # Additional routes can go here
   get "up" => "rails/health#show", as: :rails_health_check
