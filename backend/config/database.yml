@@ -16,7 +16,8 @@ default: &default
 development:
   <<: *default
   database: budget_tracker_app_development
-  
+  username: <%= ENV['DATABASE_USERNAME'] %> # Change this if you want to use a static username
+  password: <%= ENV['DATABASE_PASSWORD'] %> # Change this if you want to use a static password
 
 test:
   <<: *default
@@ -27,3 +28,4 @@ production:
   database: budget_inu_db
   username: <%= ENV['PROD_DATABASE_USERNAME'] %>
   password: <%= ENV['PROD_DATABASE_PASSWORD'] %> 
+  port: 5432
