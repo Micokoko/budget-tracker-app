@@ -26,4 +26,4 @@ test:
 
 production:
   <<: *default
-  database: budget_tracker_app_production
+  url: <%= ENV['DATABASE_URL'] %>
