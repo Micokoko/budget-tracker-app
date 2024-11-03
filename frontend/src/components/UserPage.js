@@ -12,7 +12,7 @@ function UserPage() {
     const userName = localStorage.getItem('username');
 
 
-    const [date, setDate] = useState(query.get('date') || new Date().toISOString().split('T')[0]);
+    const [date, setDate] = useState(query.get('month') || new Date().toISOString().slice(0, 7));
     const [error, setError] = useState('');
 
     const calculateTotals = (entries) => {
@@ -21,21 +21,21 @@ function UserPage() {
         return { totalIncome, totalExpense };
     };
 
-    const handleDateChange = (event) => {
-        const newDate = event.target.value;
-        setDate(newDate);
-        navigate(`/dashboard?date=${newDate}`); 
+    const handleMonthChange = (event) => {
+        const newMonth = event.target.value;
+        setDate(newMonth);
+        navigate(`/dashboard?month=${newMonth}`); 
     };
 
-    const handleDateChangeArrows = (change) => {
-        const currentDate = new Date(date);
+    const handleMonthChangeArrows = (change) => {
+        const currentMonth = new Date(date + '-01'); 
+        currentMonth.setMonth(currentMonth.getMonth() + change); 
+        const newMonth = currentMonth.toISOString().slice(0, 7); 
+    
 
-        if(change === -1){
-            currentDate.setDate(currentDate.getDate() - 1);}
-        
-        if(change === 1){
-            currentDate.setDate(currentDate.getDate() + 1);}
-        setDate(currentDate.toISOString().split('T')[0]);
+        setDate(newMonth);
+        navigate(`/dashboard?month=${newMonth}`); 
+        fetchEntriesByUsername(userName, newMonth);
     };
 
 
@@ -44,17 +44,18 @@ function UserPage() {
 
     useEffect(() => {
         const fetchEntries = async () => {
-            if (!userName || !date) return; 
+            if (!userName) return; 
             try {
-                const data = await fetchEntriesByUsername(userName, date);
-                setEntries(data);
+                const data = await fetchEntriesByUsername(userName);
+                const filteredEntries = data.filter(entry => entry.date.startsWith(date)); 
+                setEntries(filteredEntries);
                 setError(''); 
             } catch (error) {
                 console.error("Error fetching entries:", error);
                 setError('Failed to fetch entries. Please try again.');
             }
         };
-
+    
         fetchEntries();
     }, [userName, date]); 
 
@@ -79,7 +80,7 @@ function UserPage() {
     };
 
     return (
-        <div className="flex flex-col w-full max-w-md bg-custom-shiba-secondary rounded-lg shadow-lg border-4 overflow-y-auto border-custom-shiba-tertiary mx-auto min-h-screen sm:min-h-[80vh] md:min-h-[60vh] lg:min-h-[50vh]">
+        <div className="flex flex-col w-full max-w-md bg-custom-shiba-secondary rounded-lg shadow-lg border-4 overflow-y-scroll border-custom-shiba-tertiary mx-auto min-h-screen sm:min-h-[80vh] md:min-h-[60vh] lg:min-h-[50vh]">
             <div className="p-4 bg-custom-shiba-quaternary border-gray-300">
                 <div className="flex justify-center mb-4"> 
                     <div className="bg-custom-shiba-quinary border-gray-300 rounded-lg shadow-md p-4 w-full">
@@ -105,18 +106,18 @@ function UserPage() {
                     </div>
                 </div>
                 <div className="flex justify-between mt-4 bg-custom-shiba-secondary rounded-2xl">
-                    <button onClick={() => handleDateChangeArrows(-1)} className="flex items-center">
+                    <button onClick={() => handleMonthChangeArrows(-1)} className="flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
                             <path fillRule="evenodd" d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z" clipRule="evenodd" />
                         </svg>
                     </button>
                     <input
-                        type="date"
+                        type="month"
                         className="text-center border-0 bg-transparent p-2"
                         value={date}
-                        onChange={handleDateChange}
+                        onChange={handleMonthChange}
                     />
-                    <button onClick={() => handleDateChangeArrows(1)} className="flex items-center">
+                    <button onClick={() => handleMonthChangeArrows(1)} className="flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
                             <path fillRule="evenodd" d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z" clipRule="evenodd" />
                         </svg>
@@ -130,6 +131,7 @@ function UserPage() {
                 <table className="table-fixed w-full">
                     <thead>
                         <tr className="bg-custom-shiba-quinary">
+                            <th className="py-2 font-semibold w-10">Day</th>
                             <th className="py-2 font-semibold">Category</th>
                             <th className="py-2 font-semibold w-36">Description</th>
                             <th className="py-2 font-semibold">Income</th>
@@ -138,43 +140,52 @@ function UserPage() {
                     </thead>
                     <tbody>
                         {entries.length > 0 ? (
-                            entries.map((entry) => (
-                                <tr
-                                    key={entry.id}
-                                    className="border-b cursor-pointer hover:bg-yellow-100"
-                                    onClick={() => handleEntryClick(entry)}
-                                >
-                                    <td className="py-2">
-                                        <div className='pl-2 font-semibold text-center text-sm break-words whitespace-normal'>{entry.category}</div>
-                                    </td>
-                                    <td className="py-2 break-words whitespace-normal">
-                                        <div className='font-semibold text-sm'>{entry.description}</div>
-                                        <div className='font-light text-xs'>{entry.entry_type}</div>
-                                    </td>
-                                    <td className={`py-2 font-medium text-center text-sm ${entry.entry_type === 'Income' ? 'text-blue-700' : ''}`}>
-                                        {entry.entry_type === 'Income' ? formatCurrency(entry.amount) : '-'}
-                                    </td>
-                                    <td className={`py-2 font-medium break-words text-sm text-center ${
-                                        entry.entry_type === 'Expense' || entry.entry_type === 'Liability'
-                                            ? 'text-red-700'
-                                            : entry.entry_type === 'Settlement'
-                                                ? 'text-fuchsia-600'
-                                                : ''
-                                    }`}>
-                                        {entry.entry_type === 'Expense' || entry.entry_type === 'Liability' || entry.entry_type === 'Settlement'
-                                            ? formatCurrency(entry.amount)
-                                            : '-'}
-                                    </td>
-                                </tr>
-                            ))
+                            entries
+                                .slice()
+                                .sort((a, b) => new Date(a.date) - new Date(b.date))
+                                .map((entry) => (
+                                    <tr
+                                        key={entry.id}
+                                        className="border-b cursor-pointer hover:bg-yellow-100"
+                                        onClick={() => handleEntryClick(entry)}
+                                    >
+                                        <td className="py-2 w-10">
+                                            <div className='pl-2 font-semibold text-center text-sm break-words whitespace-normal'>
+                                                {entry.date.split('-')[2]}
+                                            </div>
+                                        </td>
+                                        <td className="py-2">
+                                            <div className='pl-2 font-semibold text-left text-sm break-words whitespace-normal'>{entry.category}</div>
+                                        </td>
+                                        <td className="py-2 break-words whitespace-normal">
+                                            <div className='font-semibold text-sm'>{entry.description}</div>
+                                            <div className='font-light text-xs'>{entry.entry_type}</div>
+                                        </td>
+                                        <td className={`py-2 font-medium text-center text-sm ${entry.entry_type === 'Income' ? 'text-blue-700' : ''}`}>
+                                            {entry.entry_type === 'Income' ? formatCurrency(entry.amount) : '-'}
+                                        </td>
+                                        <td className={`py-2 font-medium break-words text-sm text-center ${
+                                            entry.entry_type === 'Expense' || entry.entry_type === 'Liability'
+                                                ? 'text-red-700'
+                                                : entry.entry_type === 'Settlement'
+                                                    ? 'text-fuchsia-600'
+                                                    : ''
+                                        }`}>
+                                            {entry.entry_type === 'Expense' || entry.entry_type === 'Liability' || entry.entry_type === 'Settlement'
+                                                ? formatCurrency(entry.amount)
+                                                : '-'}
+                                        </td>
+                                    </tr>
+                                ))
                         ) : (
                             <tr>
-                                <td colSpan="4" className="text-center px-4 py-2">No entries found.</td>
+                                <td colSpan="5" className="text-center px-4 py-2">No entries found.</td>
                             </tr>
                         )}
                     </tbody>
                 </table>
             </div>
+
 
             <div className="p-3 bg-custom-shiba-quinary border-t border-gray-300 mt-auto">
                 <div className="flex justify-between justify-items-center space-x-4 px-8">

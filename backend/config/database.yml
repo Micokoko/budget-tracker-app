@@ -16,6 +16,7 @@ default: &default
 development:
   <<: *default
   database: budget_tracker_app_development
+  
 
 test:
   <<: *default

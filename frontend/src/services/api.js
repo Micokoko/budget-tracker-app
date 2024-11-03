@@ -27,13 +27,14 @@ export const signupUser = async (userData) => {
     return response.data;
 };
 
-export const fetchEntriesByUsername = async (username, date) => {
-    const response = await fetch(`${API_URL}/entries?username=${username}&date=${date}`);
-    if (!response.ok) {
-        throw new Error(`Error fetching entries: ${response.status}`);
-    }
-    return await response.json();
+export const fetchEntriesByUsername = async (username, month) => {
+        const response = await fetch(`${API_URL}/entries?username=${username}&month=${month}`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return await response.json();
 };
+
 
 export const getEntryById = async (id, username) => {
     const response = await fetch(`${API_URL}/entries/${id}?username=${username}`);
