@@ -13,6 +13,7 @@ function UserPage() {
 
 
     const [date, setDate] = useState(query.get('month') || new Date().toISOString().slice(0, 7));
+    const [today, setToday] = useState(query.get('day') || new Date().toISOString().slice(0, 10));
     const [error, setError] = useState('');
 
     const calculateTotals = (entries) => {
@@ -68,7 +69,7 @@ function UserPage() {
     };
 
     const handleEntryAddition = () => {
-        navigate(`/add-entry?username=${userName}&date=${date}`);
+        navigate(`/add-entry?username=${userName}&date=${today}`);
     };
 
     const handleEntryClick = (entry) => {
