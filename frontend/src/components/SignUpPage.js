@@ -46,6 +46,7 @@ const SignUpPage = () => {
                 cash: 0,
                 liabilities: 0
             });
+            alert("User has been successfully created!")
             navigate('/');
         } catch (error) {
             console.error('Error during signup:', error); 
