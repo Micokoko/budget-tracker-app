@@ -13,25 +13,4 @@ class User < ApplicationRecord
 
   has_many :entries
 
-  def create_user_entries_table
-    table_name = "user_#{username}_entries"
-    unless ActiveRecord::Base.connection.table_exists?(table_name)
-      ActiveRecord::Migration.create_table(table_name) do |t|
-        t.date :date
-        t.string :entry_type
-        t.string :category
-        t.string :description
-        t.decimal :amount, precision: 10, scale: 2
-        t.timestamps
-      end
-    end
-  end
-
-  def entries_model
-    model_class_name = "User#{username.capitalize}Entry"
-    Object.const_set(model_class_name, Class.new(ActiveRecord::Base)) unless Object.const_defined?(model_class_name)
-    model_class_name.constantize.tap do |model|
-      model.table_name = "user_#{username}_entries"
-    end
-  end
 end
