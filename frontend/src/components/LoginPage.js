@@ -54,7 +54,6 @@ function LoginPage() {
                 <div className="bg-custom-shiba-secondary py-3">
                     <img className="object-scale-down h-36 w-full" src='images/budget-inu-logo.png' alt="Budget Inu Logo" />
                 </div>
-                <h2 className='text-xl md:text-3xl font-bold text-center font-logoFont'>Your wallets best friend</h2>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
