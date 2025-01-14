@@ -23,9 +23,8 @@ test:
 
 production:
   <<: *default
-  database: budget_inu_db
+  database: budget_inu_db_aiq4
   username: <%= ENV['PROD_DATABASE_USERNAME'] %>
   password: <%= ENV['PROD_DATABASE_PASSWORD'] %>
   host: <%= ENV['PROD_DATABASE_HOST'] %>
-  url: <%= ENV['DATABASE_URL'] %>
   port: 5432
