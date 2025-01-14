@@ -28,6 +28,6 @@ production:
   username: <%= ENV['PROD_DATABASE_USERNAME'] %>
   password: <%= ENV['PROD_DATABASE_PASSWORD'] %>
   host: <%= ENV['PROD_DATABASE_HOST'] %>
-  port: <%= ENV['PROD_DATABASE_PORT'] || 5432 %>
+  port: 5432
   pool: 5
 
