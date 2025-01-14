@@ -8,14 +8,14 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: 5
-  username: <%= ENV['DATABASE_USERNAME'] %> # Change this if you want to use a static username
-  password: <%= ENV['DATABASE_PASSWORD'] %> # Change this if you want to use a static password
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
 
 development:
   <<: *default
   database: budget_tracker_app_development
-  username: <%= ENV['DATABASE_USERNAME'] %> # Change this if you want to use a static username
-  password: <%= ENV['DATABASE_PASSWORD'] %> # Change this if you want to use a static password
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
 
 test:
   <<: *default
@@ -28,3 +28,4 @@ production:
   password: <%= ENV['PROD_DATABASE_PASSWORD'] %>
   host: <%= ENV['PROD_DATABASE_HOST'] %>
   port: 5432
+
