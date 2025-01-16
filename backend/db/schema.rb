@@ -15,33 +15,15 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_03_063555) do
   enable_extension "plpgsql"
 
   create_table "entries", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.date "date", null: false
+    t.string "entry_type", null: false
+    t.string "description", null: false
+    t.decimal "amount", precision: 10, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.date "date"
-    t.string "entry_type"
-    t.string "description"
-    t.decimal "amount"
-    t.bigint "user_id", null: false
     t.string "category"
     t.index ["user_id"], name: "index_entries_on_user_id"
-  end
-
-  create_table "user_micokoko_entries", force: :cascade do |t|
-    t.date "date"
-    t.string "entry_type"
-    t.string "description"
-    t.decimal "amount", precision: 10, scale: 2
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "user_shibainu_entries", force: :cascade do |t|
-    t.date "date"
-    t.string "entry_type"
-    t.string "description"
-    t.decimal "amount", precision: 10, scale: 2
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
