@@ -13,4 +13,10 @@ class User < ApplicationRecord
 
   has_many :entries
 
+  private
+
+  def create_user_entries_table
+    Entry.create(user_id: self.id)
+  end
+
 end
