@@ -15,6 +15,7 @@ function UserPage() {
     const [date, setDate] = useState(query.get('month') || new Date().toISOString().slice(0, 7));
     const [today, setToday] = useState(query.get('day') || new Date().toISOString().slice(0, 10));
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const calculateTotals = (entries) => {
         const totalIncome = entries.reduce((sum, entry) => sum + (entry.entry_type === 'Income' ? Number(entry.amount) : 0), 0);
@@ -45,15 +46,18 @@ function UserPage() {
 
     useEffect(() => {
         const fetchEntries = async () => {
+            setLoading(true);
             if (!userName) return; 
             try {
                 const data = await fetchEntriesByUsername(userName);
                 const filteredEntries = data.filter(entry => entry.date.startsWith(date)); 
                 setEntries(filteredEntries);
                 setError(''); 
+                setLoading(false);
             } catch (error) {
                 console.error("Error fetching entries:", error);
                 setError('Failed to fetch entries. Please try again.');
+                setLoading(false);
             }
         };
     
@@ -138,7 +142,10 @@ function UserPage() {
                 {error && <p className="text-red-600 text-center mt-2">{error}</p>}
             </div>
 
-            <div className="flex-1 overflow-y-auto" style={{ minHeight: '400px', maxHeight: '600px' }}>
+            <div className="flex-1 overflow-y-auto" style={{ minHeight: '400px', maxHeight: '600px' }}>                        
+                
+                {loading ? (
+                            <div className="text-center py-4">Loading entries...</div> ) : (
                 <table className="table-fixed w-full">
                     <thead>
                         <tr className="bg-custom-shiba-quinary">
@@ -149,6 +156,7 @@ function UserPage() {
                         </tr>
                     </thead>
                     <tbody>
+
                         {entries.length > 0 ? (
                             Object.entries(entries.sort((a, b) => new Date(a.date) - new Date(b.date)).reduce((acc, entry) => {
                                     const dateKey = entry.date.split('-').join('-');
@@ -205,6 +213,7 @@ function UserPage() {
                         )}
                     </tbody>
                 </table>
+            )}
             </div>
 
 

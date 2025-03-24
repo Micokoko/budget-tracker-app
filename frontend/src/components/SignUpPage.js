@@ -14,6 +14,7 @@ const SignUpPage = () => {
 
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -25,6 +26,8 @@ const SignUpPage = () => {
         e.preventDefault();
         setError(null);
         setSuccessMessage(null);
+        setLoading(true);
+
     
         try {
             const response = await signupUser({
@@ -48,6 +51,7 @@ const SignUpPage = () => {
             });
             alert("User has been successfully created!")
             navigate('/');
+            setLoading(false);
         } catch (error) {
             console.error('Error during signup:', error); 
     
@@ -55,10 +59,11 @@ const SignUpPage = () => {
             if (typeof error === 'string') {
                 setError(error); 
             } else if (error && typeof error === 'object') {
-
+                setLoading(false);
                 setError(Object.values(error).flat().join(', ')); 
             } else {
                 setError('Registration failed. Please try again.');
+                setLoading(false);
             }
         }
     };
@@ -129,7 +134,15 @@ const SignUpPage = () => {
                 <input type="hidden" name="cash" value={formData.cash} />
                 <input type="hidden" name="liabilities" value={formData.liabilities} />
 
-                <button type="submit" className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-3xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Register</button>
+                <button type="submit" 
+                        className={`w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-3xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 flex items-center justify-center ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        disabled={loading}
+                    >
+                        {loading ? (
+                            <svg className="animate-spin h-5 w-5 mr-3 border-t-2 border-white border-solid rounded-full" viewBox="0 0 24 24"></svg>
+                        ) : "Register"}
+                </button>
+                
             </form>
         </div>
 

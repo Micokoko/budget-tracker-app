@@ -10,24 +10,17 @@ function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-    const [successMessage, setSuccessMessage] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        const credentials = {
-            email,
-            password,
-        };
+        setLoading(true);
 
         try {
-            const result = await loginUser(credentials); 
-            console.log(result);
-
-
-            setUsername(result.user.username); 
+            const result = await loginUser({ email, password }); 
+            setUsername(result.user.username);
 
             localStorage.setItem('username', result.user.username);
             localStorage.setItem('cash', result.user.cash);
@@ -36,14 +29,9 @@ function LoginPage() {
             navigate("/dashboard");
         } catch (error) {
             console.error('Error during login:', error);
-
-            if (typeof error === 'string') {
-                setError(error); 
-            } else if (error && typeof error === 'object') {
-                setError(Object.values(error).flat().join(', ')); 
-            } else {
-                setError('Login failed. Please try again.'); 
-            }
+            setError('Login failed. Please try again.'); 
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -56,6 +44,8 @@ function LoginPage() {
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
+                    {error && <p className="text-red-600">{error}</p>}
+
                     <div>
                         <label className="block pl-2 text-xs font-semibold text-slate-950" htmlFor="email">Email</label>
                         <input
@@ -80,12 +70,15 @@ function LoginPage() {
                             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-3xl shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
                         />
                     </div>
-                    {error && <p className="text-red-600">{error}</p>}
+
                     <button
                         type="submit"
-                        className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-3xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                        disabled={loading}
+                        className={`w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-3xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 flex items-center justify-center ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                     >
-                        Login
+                        {loading ? (
+                            <svg className="animate-spin h-5 w-5 mr-3 border-t-2 border-white border-solid rounded-full" viewBox="0 0 24 24"></svg>
+                        ) : "Login"}
                     </button>
                 </form>
 
@@ -102,8 +95,6 @@ function LoginPage() {
                 </div>
             </div>
         </div>
-
-
     );
 }
 
